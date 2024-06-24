@@ -38,6 +38,7 @@ export default function Popular() {
                     </div>
             </div>
         </div>
+        <div className='button-center'><button type='button' className='view'>View All</button></div>
       </div>
   )
 }
