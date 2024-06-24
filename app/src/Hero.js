@@ -1,10 +1,16 @@
 import React from 'react'
 import bag from './bag.png'
 import avatar from './avatar.png'
+import hero from './hero3.png'
 export default function Hero() {
   return (
     <div className='Hero-container'>
+      <img className='hero-img' src={hero} alt='main'></img>
       <Navbar />
+      <div className='moto'>
+        <div className='moto-text'>Decorate Your Dream Space <br/> With Our Finest Collection</div>
+        <button className='explore'>Explore Collection</button>
+      </div>
     </div>
   )
 }
