@@ -2,6 +2,7 @@ import React from 'react'
 import fb from './fb.png'
 import ins from './ins.png'
 import x from './x.png'
+import './index.css';
 
 export default function Footer() {
   return (

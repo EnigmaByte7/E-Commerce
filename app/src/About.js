@@ -4,6 +4,7 @@ import cust from './cust.jpg'
 import hand from './hand.jpg'
 import store from './stores.jpg'
 import story from './story.jpg'
+import './index.css';
 
 export default function About() {
   return (

@@ -4,6 +4,7 @@ import vs from './vs.jpg'
 import li from './lights.jpg'
 import art from './art.jpg'
 import cdl from './candle.jpg'
+import './index.css';
 export default function Categories() {
   return (
     <>

@@ -2,6 +2,7 @@ import React from 'react'
 import bag from './bag.png'
 import avatar from './avatar.png'
 import hero from './hero3.png'
+import './index.css';
 export default function Hero() {
   return (
     <div className='Hero-container'>
