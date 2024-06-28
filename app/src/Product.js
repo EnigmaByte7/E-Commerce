@@ -9,21 +9,19 @@ import load from './loading.gif'
 import { useState, useEffect } from 'react';
 import Footer from './Footer'
 import {useParams,Link} from 'react-router-dom'
-const sofa = 'http://localhost:5000/products/sofa';
-const  shelf = 'http://localhost:5000/products/shelf';
-const table = 'http://localhost:5000/products/table';
-const chair = 'http://localhost:5000/products/chair';
-const bed = 'http://localhost:5000/products/bed';
 
 export default function Product() {
   const {catg} = useParams();
   console.log(catg);
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const fetchData = async () => {
     try{
       let res = await fetch(`http://localhost:5000/products/${catg}`);
       res = await res.json();
       setData(res.data);
+      console.log(res.data);
+      setLoading(false);
     }
     catch(err){
       throw(err);
@@ -32,9 +30,9 @@ export default function Product() {
 
   useEffect(()=>{
     fetchData();
-  },[]);
+  },[catg]);
 
-  if (data.length === 0){
+  if (loading){
     return(
     <div className='loading'><img src={load} alt='animation'></img></div> )
 }
@@ -100,11 +98,11 @@ const CategoryList = ()=>{
     <div className='category-field'>
       <div className='category-name'>Furniture</div>
       <ul>
-        <li ><Link to='/products/sofa'>Sofa & Couches</Link></li>
-        <li><Link to='/products/table'>Tables</Link></li>
-        <li><Link to='/products/chair'>Chairs</Link></li>
-        <li><Link to='/products/bed'>Beds</Link></li>
-        <li><Link to='/products/shelf'>Bookshelves</Link></li>
+        <Link to='/products/sofa'><li >Sofa & Couches</li></Link>
+        <Link to='/products/table'><li>Tables</li></Link>
+        <Link to='/products/chair'><li>Chairs</li></Link>
+        <Link to='/products/bed'><li>Beds</li></Link>
+        <Link to='/products/shelf'><li>Bookshelves</li></Link>
       </ul>
     </div>
     <div className='category-field'>
