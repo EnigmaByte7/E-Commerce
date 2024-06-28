@@ -13,7 +13,7 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route path='/products' element={
+          <Route path='/products/:catg' element={
             <Product/>}>
           </Route>
             <Route path='/' element={

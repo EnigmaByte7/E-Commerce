@@ -8,7 +8,8 @@ import star from './star.png'
 import load from './loading.gif'
 import { useState, useEffect } from 'react';
 import Footer from './Footer'
-const url = 'http://localhost:5000/products/sofa';
+import {useParams} from 'react-router-dom'
+const sofa = 'http://localhost:5000/products/sofa';
 
 export default function Product() {
   const [data, setData] = useState([]);
