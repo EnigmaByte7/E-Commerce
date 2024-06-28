@@ -8,7 +8,7 @@ import star from './star.png'
 import load from './loading.gif'
 import { useState, useEffect } from 'react';
 import Footer from './Footer'
-import {useParams} from 'react-router-dom'
+import {useParams,Link} from 'react-router-dom'
 const sofa = 'http://localhost:5000/products/sofa';
 const  shelf = 'http://localhost:5000/products/shelf';
 const table = 'http://localhost:5000/products/table';
@@ -100,11 +100,11 @@ const CategoryList = ()=>{
     <div className='category-field'>
       <div className='category-name'>Furniture</div>
       <ul>
-        <li>Sofa & Couches</li>
-        <li>Tables</li>
-        <li>Chairs</li>
-        <li>Beds</li>
-        <li>Bookshelves</li>
+        <li ><Link to='/products/sofa'>Sofa & Couches</Link></li>
+        <li><Link to='/products/table'>Tables</Link></li>
+        <li><Link to='/products/chair'>Chairs</Link></li>
+        <li><Link to='/products/bed'>Beds</Link></li>
+        <li><Link to='/products/shelf'>Bookshelves</Link></li>
       </ul>
     </div>
     <div className='category-field'>
