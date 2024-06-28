@@ -279,4 +279,14 @@ body{
     height: auto;
     margin:auto
   }
-  
+  a{
+    text-decoration: none;
+  }
+  a:visited{
+    color:#222;
+    text-decoration: none;
+  }
+  a:active{
+    color:#222;
+    text-decoration: none;
+  }
