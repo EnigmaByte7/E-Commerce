@@ -274,3 +274,9 @@ body{
     box-shadow: none;
     padding: 10px;
   }
+  .loading{
+    width:50%;
+    height: auto;
+    margin:auto
+  }
+  

@@ -5,18 +5,20 @@ import avatar from './avatar.png'
 import Navbar from './Navbar';
 import vs from './vs-banner.jpg'
 import star from './star.png'
-import data from './sofa.js'
 import load from './loading.gif'
 import { useState, useEffect } from 'react';
+import Footer from './Footer'
 const url = 'http://localhost:5000/products/sofa';
 
 export default function Product() {
   const [data, setData] = useState([]);
   const fetchData = async () => {
     try{
-      const res = await fetch(url);
-      data = res.json();
-      setData(data);
+      let res = await fetch(url);
+      res = await res.json();
+      console.log('fetched');
+      console.log(res);
+      setData(res.data);
     }
     catch(err){
       throw(err);
@@ -27,8 +29,11 @@ export default function Product() {
     fetchData();
   },[]);
 
+  console.log(data);
+
   if (data.length === 0){
-    return(<div><img src={load} alt='animation'></img></div> )
+    return(
+    <div className='loading'><img src={load} alt='animation'></img></div> )
 }
   return (
     <>
@@ -80,6 +85,7 @@ export default function Product() {
           </div>
         </div>
     </div>
+    <Footer />
   </>
   )
 }
