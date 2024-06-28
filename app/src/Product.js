@@ -10,12 +10,17 @@ import { useState, useEffect } from 'react';
 import Footer from './Footer'
 import {useParams} from 'react-router-dom'
 const sofa = 'http://localhost:5000/products/sofa';
+const  shelf = 'http://localhost:5000/products/shelf';
+const table = 'http://localhost:5000/products/table';
+const chair = 'http://localhost:5000/products/chair';
+const bed = 'http://localhost:5000/products/bed';
 
 export default function Product() {
+  const {name} = useParams();
   const [data, setData] = useState([]);
   const fetchData = async () => {
     try{
-      let res = await fetch(url);
+      let res = await fetch(sofa);
       res = await res.json();
       console.log('fetched');
       console.log(res);
