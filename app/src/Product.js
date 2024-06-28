@@ -16,14 +16,13 @@ const chair = 'http://localhost:5000/products/chair';
 const bed = 'http://localhost:5000/products/bed';
 
 export default function Product() {
-  const {name} = useParams();
+  const {catg} = useParams();
+  console.log(catg);
   const [data, setData] = useState([]);
   const fetchData = async () => {
     try{
-      let res = await fetch(sofa);
+      let res = await fetch(`http://localhost:5000/products/${catg}`);
       res = await res.json();
-      console.log('fetched');
-      console.log(res);
       setData(res.data);
     }
     catch(err){
@@ -34,8 +33,6 @@ export default function Product() {
   useEffect(()=>{
     fetchData();
   },[]);
-
-  console.log(data);
 
   if (data.length === 0){
     return(
