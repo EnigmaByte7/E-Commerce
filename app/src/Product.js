@@ -6,9 +6,30 @@ import Navbar from './Navbar';
 import vs from './vs-banner.jpg'
 import star from './star.png'
 import data from './sofa.js'
-console.log(data);
+import load from './loading.gif'
+import { useState, useEffect } from 'react';
+const url = 'http://localhost:5000/products/sofa';
 
 export default function Product() {
+  const [data, setData] = useState([]);
+  const fetchData = async () => {
+    try{
+      const res = await fetch(url);
+      data = res.json();
+      setData(data);
+    }
+    catch(err){
+      throw(err);
+    }
+  }
+
+  useEffect(()=>{
+    fetchData();
+  },[]);
+
+  if (data.length === 0){
+    return(<div><img src={load} alt='animation'></img></div> )
+}
   return (
     <>
     <div className='container'>
