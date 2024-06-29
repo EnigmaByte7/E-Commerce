@@ -108,9 +108,9 @@ const CategoryList = ()=>{
     <div className='category-field'>
       <div className='category-name'>Decor</div>
       <ul>
-        <li>Vases</li>
-        <li>Clocks</li>
-        <li>Figurines</li>
+      <Link to='/products/vase'><li>Vases</li></Link>
+      <Link to='/products/clock'><li>Clocks</li></Link>
+      <Link to='/products/figurines'><li>Figurines</li></Link>
       </ul>
     </div>
     <div className='category-field'>
