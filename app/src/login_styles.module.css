@@ -1,0 +1,145 @@
+body{
+    width:100vw;
+    height:100vh;
+    position: absolute;
+    top:0;
+    left:0;
+    padding:0;
+    margin:0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.main{
+    width:100vw;
+    display: flex;
+    flex-direction: row;
+    height:100vh;
+    align-items: center;
+    justify-content: stretch;
+}
+.banner_img{
+    width:60%;
+    height:100%;
+    z-index:0px;
+}
+.banner_img img{
+    width: 100%;
+    height:100%;
+    object-fit: cover;
+}
+.form_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:50%;
+    height: 100%;
+    z-index: 999;
+    background-color: white;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    position:absolute;
+    right:0;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    height:100%;
+    align-items: center;
+    margin:auto;
+    padding:20px;
+    gap:30px;
+    background-color: white;
+    justify-content: center;
+    width:80%;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:10px;
+    width:100%;
+    justify-content: center;
+}
+form label{
+    font-size:0.9rem;
+    color:#222;
+    font-weight:500;
+    text-align: left;
+    width:60%;
+}
+form input{
+    margin-top: -5px;
+    font-size:1rem;
+    color:#222;
+    padding:5px;
+    border-top:none;
+    border-left:none;
+    border-right:none;
+    width:60%;
+}
+.inpt1{
+    background: url(./mail.png) no-repeat scroll 7px 7px;
+    padding-left:30px;
+}
+.inpt2{
+    background: url(./lock.png) no-repeat scroll 7px 7px;
+    padding-left:30px;
+}
+.inpt3{
+    background: url(./user.png) no-repeat scroll 7px 7px;
+    padding-left:30px;
+}
+form input:focus{
+    outline: none;
+    border-top:none;
+    border-left:none;
+    border-right:none;
+}
+button{
+    margin-top: 30px;
+    width: 60%;
+    border-radius: 999px;
+    color:white;
+    font-weight: 500;
+    font-size: 0.9rem;
+    outline:none;
+    border-color:none;
+    padding:10px;
+    background-color: #222;
+    text-align: center;
+}
+.login_text{
+    display: flex;
+    flex-direction: column;
+    color:#222;
+    width:100%;
+    padding-left:20%;
+}
+.wel{
+    font-size:2.5rem;
+    font-weight:900;
+    text-align: left;
+}
+.bk{
+    font-size: 2rem;
+    text-align: left;
+    font-weight: 900;
+}
+.create_acc{
+    color:#222;
+    font-size: 0.6rem;
+    width:100%;
+    text-align: left;
+    margin-top:10px;
+}
+a{
+    color:lightskyblue;
+    text-decoration: none;
+}
+a:visited{
+    color:lightskyblue;
+    text-decoration: none;
+}
+a:active{
+    color:lightskyblue;
+    text-decoration: none;
+}
