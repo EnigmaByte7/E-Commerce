@@ -95,6 +95,7 @@ form input:focus{
     border-right:none;
 }
 button{
+    position: relative;
     margin-top: 30px;
     width: 60%;
     border-radius: 999px;
@@ -102,7 +103,7 @@ button{
     font-weight: 500;
     font-size: 0.9rem;
     outline:none;
-    border-color:none;
+    border-color:transparent;
     padding:10px;
     background-color: #222;
     text-align: center;
@@ -142,4 +143,16 @@ a:visited{
 a:active{
     color:lightskyblue;
     text-decoration: none;
+}
+.loader{
+    background-color: transparent;
+    border-radius: 999px;
+    position:absolute;
+    bottom:11%;
+    visibility: hidden;
+}
+.loader img{
+    width:25%;
+    object-fit: contain;
+    margin:auto;
 }
