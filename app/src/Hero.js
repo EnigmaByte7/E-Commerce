@@ -12,18 +12,20 @@ export default function Hero() {
   const name = localStorage.getItem('user');
   const [user, setUser] = useState(name);  
   useEffect(()=>{  
+    const greet = localStorage.getItem('greeted');
     setTimeout(()=>{
-      if(user){
+      if(user && greet!=='yes'){
         toast.success(`Hello! ${name} 👋 `,{
           duration:3000
-      });     
+      });
+      localStorage.setItem('greeted','yes')     
       }
     },1000)
-  },[user])
+  },[])
 
   return (
     <>
-    <Toaster />
+    {user && <Toaster />}
     <div className='Hero-container'>
       <img className='hero-img' src={hero} alt='main'></img>
       <Navbar user={user} setUser={setUser} />
@@ -45,7 +47,14 @@ const Navbar = ({user, setUser})=>{
     if(user != null){
       localStorage.removeItem('user');
       navigate('/');
+      localStorage.setItem('greeted','no')     
       setUser(undefined);
+      toast.promise(
+         {
+           loading: 'Logging Off...',
+           success: <b>Logged Off!</b>
+         }
+       );
     }
     else{
       navigate('/login');

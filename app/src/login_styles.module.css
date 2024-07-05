@@ -156,3 +156,6 @@ a:active{
     object-fit: contain;
     margin:auto;
 }
+button{
+    cursor:pointer;
+}
