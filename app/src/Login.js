@@ -39,8 +39,9 @@ export default function Login() {
                 })
                 buttonRef.current.style.visibility = 'visible';
                 loadRef.current.style.visibility = 'hidden';
+                localStorage.setItem('user',data.username);
                 setTimeout(()=>{
-                    navigate(`/:${}`);
+                    navigate('/');
                 },2000);
             }
             if(!response.ok){
@@ -55,6 +56,7 @@ export default function Login() {
 
     return (
         <div className={styles.main}>
+        <Toaster />
         <div className={styles.banner_img}><img src={banner} alt='hero-image'></img></div>
         <div className={styles.form_container}>
             <div className={styles.form}>
@@ -62,7 +64,7 @@ export default function Login() {
                 <div className={styles.wel}>Welcome</div>
                 <div className={styles.bk}>back</div>
             </div>
-                <form action='/login'>
+                <form onSubmit={handleSubmit}>
                     <label htmlFor='mail'>Email</label>
                     <input autoFocus autoComplete='off' className={styles.inpt1} type='email' id='mail' name='email' value={form.email} onChange={handleChange} required></input>
                     <label htmlFor='pswd'>Password</label>

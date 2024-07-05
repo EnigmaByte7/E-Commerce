@@ -4,6 +4,7 @@ import {useState} from 'react'
 import signup from './signup.png'
 import {useRef} from 'react'
 import loader from './loader.gif'
+import {Link} from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -43,6 +44,7 @@ export default function Register() {
                     },2000);
                 }
                 if(!response.ok){
+                    console.log(data.message);
                     toast.error(`${data.message}`)
                     buttonRef.current.style.visibility = 'visible';
                     loadRef.current.style.visibility = 'hidden';
@@ -69,6 +71,7 @@ export default function Register() {
                     <input  autoComplete='off' className={styles.inpt1} type='email' id='mail' name='email' value={form.email} onChange={handleChange} required></input>
                     <label htmlFor='pswd'>Password</label>
                     <input autoComplete='off' className={styles.inpt2} type='password' name='pass' id='pswd' value={form.pass} onChange={handleChange} required></input>
+                    <div className='create_acc'>Already have an account ? <Link to='/login'>Login now.</Link></div>
                     <button ref={buttonRef} type='submit'>Sign Up</button>
                     <div ref={loadRef} className={styles.loader}><img src={loader} alt='loading'></img></div>
                 </form>

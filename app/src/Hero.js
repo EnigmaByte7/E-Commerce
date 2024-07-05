@@ -1,33 +1,67 @@
-import React from 'react'
+import React, { useEffect ,useState} from 'react'
 import bag from './bag.png'
 import avatar from './avatar.png'
 import hero from './hero3.png'
+import logout from './logout.png'
 import './index.css';
+import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate,Link } from 'react-router-dom';
+
+
 export default function Hero() {
+  const name = localStorage.getItem('user');
+  const [user, setUser] = useState(name);  
+  useEffect(()=>{  
+    setTimeout(()=>{
+      if(user){
+        toast.success(`Hello! ${name} 👋 `,{
+          duration:3000
+      });     
+      }
+    },1000)
+  },[user])
+
   return (
+    <>
+    <Toaster />
     <div className='Hero-container'>
       <img className='hero-img' src={hero} alt='main'></img>
-      <Navbar />
+      <Navbar user={user} setUser={setUser} />
       <div className='moto'>
         <div className='moto-text'>Decorate Your Dream Space <br/> With Our Finest Collection</div>
-        <button className='explore'>Explore Collection</button>
+        <Link to='/products/sofa' ><button className='explore'>Explore Collection</button></Link>
       </div>
     </div>
+    </>
   )
 }
 
-const Navbar = ()=>{
+
+
+const Navbar = ({user, setUser})=>{
+  const navigate = useNavigate();
+  const handleClick = (e)=>{
+    e.preventDefault();
+    if(user != null){
+      localStorage.removeItem('user');
+      navigate('/');
+      setUser(undefined);
+    }
+    else{
+      navigate('/login');
+    }
+  }
   return (
     <div className='navbar'>
         <div className='logo'>Oak & Ivory</div>
         <div className='tabs'>
-            <div className='home'>Home</div>
-            <div className='collect'>Collections</div>
+            <Link to='/'><div className='home'>Home</div></Link>
+            <Link to='/products/sofa' ><div className='collect'>Collections</div></Link>
             <div className='abt'>About</div>
         </div>
         <div className='icons'>
             <img src={bag} alt='bag' id='cart'></img>
-            <img src={avatar} alt='avatar' id='profile'></img>
+            <img onClick={handleClick} src={user != undefined ? logout : avatar} alt='avatar' id='profile'></img>
         </div>
     </div>
   )
