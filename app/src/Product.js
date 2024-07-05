@@ -6,6 +6,7 @@ import logout from './logout.png'
 import vs from './vs-banner.jpg'
 import star from './star.png'
 import load from './loading.gif'
+import chr from './chr.png'
 import { useState, useEffect } from 'react';
 import Footer from './Footer'
 import {useParams,Link,useNavigate} from 'react-router-dom'
@@ -15,7 +16,8 @@ const _ = require('lodash');
 export default function Product() {
   const banner = {
     'sofa':'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'table':  tbl
+    'table':  tbl,
+    'chair': chr
   }
   const name = localStorage.getItem('user');
   const [user, setUser] = useState(name);  
