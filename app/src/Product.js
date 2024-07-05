@@ -17,7 +17,7 @@ export default function Product() {
   const banner = {
     'sofa':'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     'table':  tbl,
-    'chair': chr
+    'chair': 'https://img.freepik.com/free-photo/blue-white-chair_1203-2058.jpg?t=st=1720206598~exp=1720210198~hmac=652840d4c07df13c821f64ec915b4196e17d40cb05b49002df59c7d175e9a45f&w=740'
   }
   const name = localStorage.getItem('user');
   const [user, setUser] = useState(name);  
