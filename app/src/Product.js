@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 import Footer from './Footer'
 import {useParams,Link,useNavigate} from 'react-router-dom'
 import tbl from './tbl.png'
+import toast, { Toaster } from 'react-hot-toast';
 const _ = require('lodash');
 
 export default function Product() {
@@ -65,6 +66,7 @@ export default function Product() {
   }
   return (
     <>
+    <Toaster/>
     <div className='container'>
         <div className='navbar1'>
             <div className='logo'>Oak & Ivory</div>
