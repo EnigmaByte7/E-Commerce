@@ -25,7 +25,7 @@ export default function Hero() {
 
   return (
     <>
-    {user && <Toaster />}
+    <Toaster />
     <div className='Hero-container'>
       <img className='hero-img' src={hero} alt='main'></img>
       <Navbar user={user} setUser={setUser} />
@@ -49,12 +49,7 @@ const Navbar = ({user, setUser})=>{
       navigate('/');
       localStorage.setItem('greeted','no')     
       setUser(undefined);
-      toast.promise(
-         {
-           loading: 'Logging Off...',
-           success: <b>Logged Off!</b>
-         }
-       );
+      toast.success('Logged Out!')
     }
     else{
       navigate('/login');

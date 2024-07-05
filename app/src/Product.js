@@ -57,6 +57,7 @@ export default function Product() {
       localStorage.removeItem('user');
       navigate('/');
       setUser(undefined);
+      toast.success('Logged Out!')
     }
     else{
       navigate('/login');
