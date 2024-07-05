@@ -56,9 +56,10 @@ export default function Product() {
     e.preventDefault();
     if(user != null){
       localStorage.removeItem('user');
+      toast.success('Logged Out!')
+      localStorage.setItem('greeted','no')   
       navigate('/');
       setUser(undefined);
-      toast.success('Logged Out!')
     }
     else{
       navigate('/login');

@@ -409,3 +409,6 @@ a:active{
     color:#222;
     text-decoration: none;
 }
+#profile, #cart{
+  cursor:pointer;
+}

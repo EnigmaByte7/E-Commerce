@@ -47,9 +47,9 @@ const Navbar = ({user, setUser})=>{
     if(user != null){
       localStorage.removeItem('user');
       navigate('/');
-      localStorage.setItem('greeted','no')     
+      localStorage.setItem('greeted','no')   
+      toast.success('Logged Out!')  
       setUser(undefined);
-      toast.success('Logged Out!')
     }
     else{
       navigate('/login');
