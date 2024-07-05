@@ -32,7 +32,7 @@ router.get('/products/vase',(req,res)=>{
 router.get('/products/clock',(req,res)=>{
     res.json(clock);
 })
-router.get('/products/figurines',(req,res)=>{
+router.get('/products/statues',(req,res)=>{
     res.json(fig);
 })
 

@@ -17,7 +17,12 @@ export default function Product() {
   const banner = {
     'sofa':'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     'table':  tbl,
-    'chair': 'https://img.freepik.com/free-photo/blue-white-chair_1203-2058.jpg?t=st=1720206598~exp=1720210198~hmac=652840d4c07df13c821f64ec915b4196e17d40cb05b49002df59c7d175e9a45f&w=740'
+    'chair': 'https://img.freepik.com/free-photo/blue-white-chair_1203-2058.jpg?t=st=1720206598~exp=1720210198~hmac=652840d4c07df13c821f64ec915b4196e17d40cb05b49002df59c7d175e9a45f&w=740',
+    'bed' : 'https://img.freepik.com/free-photo/color-year-interior-design-space-with-furniture-decor_23-2151397387.jpg?t=st=1720206801~exp=1720210401~hmac=b39e232b5909e13abd23d36b013d7b4949722fabe534ba17eb3ef89806bfbd43&w=826',
+    'shelf' : 'https://img.freepik.com/free-photo/wooden-plant-shelf-against-blank-wall_53876-110326.jpg?t=st=1720206995~exp=1720210595~hmac=696c815c4a060c2706ba9e2158d0e8e4ca2ae3138f9034e8345c738683d2a12b&w=740',
+    'vase':vs,
+    'clock':'https://images.unsplash.com/photo-1527434284315-fadc3143d9f2?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'statues' : 'https://img.freepik.com/premium-photo/modern-composition-stylish-accessories-decoration-flowers-gold-monkey-wooden-bench-white-living-room-interior-close-up-detalis_431307-4275.jpg?w=740'
   }
   const name = localStorage.getItem('user');
   const [user, setUser] = useState(name);  
