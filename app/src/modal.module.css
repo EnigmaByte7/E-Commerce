@@ -160,7 +160,7 @@
     color:#222;
     background-color: white;
     text-align: center;
-    padding: 10px;
+    padding: 15px;
 }
 .now-buy{
     width:95%;
@@ -171,7 +171,7 @@
     text-align: center;
     outline: none;
     box-shadow: none;
-    padding: 10px;
+    padding: 15px;
 }
 .star{
     display: flex;
