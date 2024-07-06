@@ -6,7 +6,6 @@ import logout from './logout.png'
 import vs from './vs-banner.jpg'
 import star from './star.png'
 import load from './loading.gif'
-import chr from './chr.png'
 import { useState, useEffect } from 'react';
 import Footer from './Footer'
 import {useParams,Link,useNavigate} from 'react-router-dom'
@@ -65,6 +64,8 @@ export default function Product() {
       navigate('/login');
     }
   }
+
+
   return (
     <>
     <Toaster/>
@@ -109,7 +110,7 @@ export default function Product() {
                 const {id, name , price, image_url, rating} = item;
                 const props = {id, name , price, image_url, rating};
                 return (
-                  <Item props = {props}></Item>
+                  <Item props = {props} id={id} ></Item>
                 )
               })
             }
@@ -171,8 +172,12 @@ const CategoryList = ()=>{
 }
 
 const Item = (props) =>{
+  
+  const viewProduct = (id)=>{
+    console.log(id);
+  }
   return (
-    <div className='product-item'>
+    <div id={props.id} className='product-item' onClick={()=> {viewProduct(props.id)} }>
       <div className='product-img'>
         <img src={props.props.image_url}></img>
       </div>
