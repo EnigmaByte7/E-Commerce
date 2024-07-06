@@ -216,6 +216,8 @@ body{
     font-size: 1.1rem;
     width:100%;
     font-weight:500; 
+    padding-top:5px;
+    padding-bottom:5px;
     text-align:left ;
   }
   .review-price{
@@ -224,7 +226,6 @@ body{
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding:10px;
   }
   .review{
     width:20%;
@@ -243,21 +244,22 @@ body{
     color:#222;
     width:80%;
     text-align: right;
-    font-weight: 500;
+    font-weight: 600;
   }
   .buttons{
     display: flex;
     flex-direction: row;
     width:100%;
-    padding:5px;
+    padding-top:5px;
+    padding-bottom:5px;
     align-items:center ;
-    justify-content: space-between;
-  }
+    justify-content:space-evenly;
+    }
   .add-to-cart, .buy-now{
     width:50%;
   }
   .cart-button{
-    width:90%;
+    width:95%;
     margin: auto;
     border-radius: 999px;
     border:1px solid #222;
@@ -267,7 +269,7 @@ body{
     padding: 10px;
   }
   .now-buy{
-    width:90%;
+    width:95%;
     margin: auto;
     border-radius: 999px;
     color:white;
