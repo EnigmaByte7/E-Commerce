@@ -11,9 +11,9 @@ import Footer from './Footer'
 import {useParams,Link,useNavigate} from 'react-router-dom'
 import tbl from './tbl.png'
 import toast, { Toaster } from 'react-hot-toast';
+import Modal from './Modal';
 const _ = require('lodash');
 let copy;
-import Modal from './Modal';
 
 export default function Product() {
   const [isModal, setModal] = useState(false);
