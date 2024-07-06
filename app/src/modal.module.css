@@ -100,18 +100,18 @@
     text-align: justify;
 }
 .amount{
-    width:100%;
-    height: auto;
     justify-content: left;
+    display: flex;
+    height:15%;
     padding:5px;
 }
 .amt_container{
     display: flex;
-    width:30%;
+    width:60%;
     flex-direction: row;
 }
 .inc{
-    width:10%;
+    width:20%;
     font-size: 1.3rem;
     color:white;
     background-color: #222;
@@ -125,7 +125,7 @@
     border-right: none;
 }
 .dec{
-    width: 10%;
+    width: 20%;
     font-size: 1.3rem;
     color:white;
     background-color: #222;
@@ -139,14 +139,14 @@
     border-left:none;
 }
 .window{
-    width: 10%;
-    background-color: antiquewhite;
+    width: 20%;
+    background-color: white;
     border-top:1px solid #222;
     border-bottom:1px solid #222;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px;
+    padding: 8px;
     font-size: 1.2rem;
     font-weight: 600;
 }

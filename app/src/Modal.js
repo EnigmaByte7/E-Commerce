@@ -2,6 +2,7 @@ import React from 'react'
 import close from './close.png'
 import styles from './modal.module.css'
 import star from './star.png'
+var Rating = require('react-rating');
 
 export default function Modal(props) {
   const obj = props.props.props;
@@ -22,12 +23,17 @@ export default function Modal(props) {
                 <div className={styles.name}>{obj.name}</div>
                 <div className={styles.brand}>By Homestead</div>
                 <div className={styles.price}>₹{obj.price}</div>
+                <Rating
+                  readonly={true}
+                  placeholderRating={obj.rating}
+                  placeholderSymbol={star}
+                />
                 <div className={styles.info}>{obj.description} Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, omnis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ratione alias quos fugit nobis cum quam enim labore dolorum voluptatibus perferendis!</div>
                 <div className={styles.amount}>
                   <div className={styles.amt_container}>
-                    <div className={styles.inc}>-</div>
-                    <div className={styles.window}>{amt}</div>
                     <div className={styles.inc}>+</div>
+                    <div className={styles.window}>{amt}</div>
+                    <div className={styles.dec}>-</div>
                   </div>
                 </div>
                 <div className='buttons'>
