@@ -23,7 +23,7 @@ export default function Modal(props) {
                 <div className={styles.name}>{obj.name}</div>
                 <div className={styles.brand}>By Homestead</div>
                 <div className={styles.price}>₹{obj.price}</div>
-                <Rating initialValue={obj.rating} />
+                <Rating initialValue={obj.rating} allowFraction={true}/>
                 <div className={styles.info}>{obj.description} Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, omnis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ratione alias quos fugit nobis cum quam enim labore dolorum voluptatibus perferendis!</div>
                 <div className={styles.amount}>
                   <div className={styles.amt_container}>
