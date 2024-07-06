@@ -11,25 +11,33 @@
 }
 .main{
     margin: auto;
-    width:95%;
-    height:95%;
+    width:90%;
+    height:90%;
     border-radius: 30px;
     background-color: white;
-    box-shadow: 2px 2px 0px 2px rgba(0,0,0,0.7);
+    box-shadow: 1px 1px 1px 0.5px rgba(0,0,0,0.7);
     left:10%;
     top:10%;
     padding:10px;
 }
 .cross{
-    width: 10%;
-    height: 10%;
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: end;
+    justify-content: end;
+    margin:10px;
+    padding-right:20px;
+}
+.cross img{
+    transform: scale(0.8);
 }
 .section{
     display: grid;
     width: 100%;
     height: 100%;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 85%;
+    grid-template-rows: max-content;
 }
 .img_section{
     width:100%;
@@ -39,35 +47,39 @@
     flex-direction: column;
 }
 .breadcrums{
-    font-size: 1rem;
+    font-size: 1.3rem;
+    padding:5px;
+    padding-left:30px;
     font-weight: 600;
     text-decoration: underline;
     text-align:left;
 }
+.slash{
+    text-decoration: none;
+}
 .product_img{
-    border-radius: 20px;
+    border-radius: 30px;
     overflow:clip;
     width:100%;
     height:100%;
     padding:20px;
 }
 .product_img img{
+    border-radius: 20px;
     object-fit: cover;
     width:100%;
     height: 100%;
 }
 .info_section{
-    width:50%;
-    height:50%;
-    padding:5px;
+    padding:20px;
     display: flex;
     flex-direction: column;
-    row-gap:5px;
+    row-gap:10px;
 }
 .name{
-    font-size:1.5rem;
+    font-size:2rem;
     color:#222;
-    font-weight: 600;
+    font-weight: 700;
     text-align: left;
 }
 .brand{
@@ -77,7 +89,7 @@
     font-weight: 500;
 }
 .price{
-    font-size: 1rem;
+    font-size: 1.2rem;
     color:#222;
     text-align: left;
     font-weight: 600;
@@ -85,14 +97,20 @@
 .info{
     font-size: 1rem;
     color:#222;
-    text-align: left;
+    text-align: justify;
 }
 .amount{
-    font-size: 1rem;
-    color:#222;
-    text-align: left;
+    width:100%;
+    height: auto;
+    justify-content: left;
+    padding:5px;
 }
-.btn{
+
+
+.add-to-cart, .buy-now{
+    width:50%;
+}
+.cart-button{
     width:95%;
     margin: auto;
     border-radius: 999px;
@@ -100,5 +118,16 @@
     color:#222;
     background-color: white;
     text-align: center;
+    padding: 10px;
+}
+.now-buy{
+    width:95%;
+    margin: auto;
+    border-radius: 999px;
+    color:white;
+    background-color: #222;
+    text-align: center;
+    outline: none;
+    box-shadow: none;
     padding: 10px;
 }

@@ -113,8 +113,8 @@ export default function Product() {
           <div className='result-section'>
             {
               data.map((item) => {
-                const {id, name , price, image_url, rating} = item;
-                const props = {id, name , price, image_url, rating};
+                const {id, name , price, image_url, rating,description} = item;
+                const props = {id, name , price, image_url, rating, description};
                 return (
                   <Item props = {props} id={id} modal={isModal} setmodal={setModal} setproduct={setProduct}></Item>
                 )
