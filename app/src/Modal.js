@@ -8,12 +8,15 @@ export default function Modal(props) {
   const obj = props.props.props;
   const amt = 1;
   console.log(obj);
+  const closeModal = ()=>{
+
+  }
   if(props.modal)
     document.body.style.overflow = 'hidden';
   return (
     <div className={styles.modal}>
       <div className={styles.main}>
-        <div className={styles.cross}><img src={close} alt='crossbtn'></img></div>
+        <div className={styles.cross}><img src={close} alt='crossbtn' onClick={closeModal}></img></div>
         <div className={styles.breadcrums}>Home <span className='slash'> / </span> Collection {obj.category}</div>
         <div className={styles.section}>
             <div className={styles.img_section}>
@@ -23,7 +26,7 @@ export default function Modal(props) {
                 <div className={styles.name}>{obj.name}</div>
                 <div className={styles.brand}>By Homestead</div>
                 <div className={styles.price}>₹{obj.price}</div>
-                <Rating initialValue={obj.rating} allowFraction={true} readonly={true}/>
+                <div className={styles.star}><Rating size={25} initialValue={obj.rating} allowFraction={true} readonly={true}/></div>
                 <div className={styles.info}>{obj.description} Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, omnis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ratione alias quos fugit nobis cum quam enim labore dolorum voluptatibus perferendis!</div>
                 <div className={styles.amount}>
                   <div className={styles.amt_container}>
