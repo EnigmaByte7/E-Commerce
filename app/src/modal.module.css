@@ -37,7 +37,7 @@
     width: 100%;
     height: 100%;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 85%;
+    grid-template-rows: 80%;
 }
 .img_section{
     width:100%;
@@ -68,7 +68,7 @@
     border-radius: 20px;
     object-fit: cover;
     width:100%;
-    height: 100%;
+    margin:auto;
 }
 .info_section{
     padding:20px;
