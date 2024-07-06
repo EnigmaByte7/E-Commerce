@@ -105,7 +105,51 @@
     justify-content: left;
     padding:5px;
 }
-
+.amt_container{
+    display: flex;
+    width:30%;
+    flex-direction: row;
+}
+.inc{
+    width:10%;
+    font-size: 1.3rem;
+    color:white;
+    background-color: #222;
+    border-top-left-radius:15px;
+    border-bottom-left-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:10px;
+    border:1px solid #222;
+    border-right: none;
+}
+.dec{
+    width: 10%;
+    font-size: 1.3rem;
+    color:white;
+    background-color: #222;
+    border-top-right-radius:15px;
+    border-bottom-right-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:10px;
+    border:1px solid #222;
+    border-left:none;
+}
+.window{
+    width: 10%;
+    background-color: antiquewhite;
+    border-top:1px solid #222;
+    border-bottom:1px solid #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
 
 .add-to-cart, .buy-now{
     width:50%;
