@@ -74,7 +74,7 @@ export default function Product() {
   return (
     <>
     <Toaster/>
-    {isModal && <Modal props={product}/>}
+    {isModal && <Modal props={product} modal={isModal}/>}
     <div className='container'>
         <div className='navbar1'>
             <div className='logo'>Oak & Ivory</div>
@@ -180,8 +180,6 @@ const CategoryList = ()=>{
 const Item = (props) =>{
   
   const viewProduct = (props)=>{
-    const i = copy.filter((item)=> item.id === props.id)
-    console.log(props.modal);
     props.setmodal(true);
     props.setproduct(props)
   }

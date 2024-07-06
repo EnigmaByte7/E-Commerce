@@ -4,6 +4,8 @@ import styles from './modal.module.css'
 
 export default function Modal(props) {
   const obj = props.props.props;
+  if(props.modal)
+    document.body.style.overflow = 'hidden';
   return (
     <div className={styles.modal}>
       <div className={styles.main}>

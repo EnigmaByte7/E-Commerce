@@ -1,16 +1,16 @@
 .modal{
     width:100vw;
     height:100vh;
-    background-color:rgb(0,0,0,0.5);
     display: flex;
     flex-direction: row;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(5px);
     position: fixed;
     top:0;
     left:0;
     z-index: 1000;
 }
 .main{
+    margin: auto;
     width:90%;
     height:90%;
     border-radius: 30px;
@@ -25,15 +25,15 @@
     height: 10%;
 }
 .section{
-    display: flex;
+    display: grid;
     width: 100%;
     height: 100%;
-    flex-direction: row;
-    column-gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 100%;
 }
 .img_section{
-    width:100%;
-    height:100%;
+    width:50%;
+    height:50%;
     padding:5px;
     display: flex;
     flex-direction: column;
@@ -45,13 +45,20 @@
     text-align:left;
 }
 .product_img{
-    width:50%;
-    height:50%;
-    padding:20px;
-}
-.info_section{
+    border-radius: 20px;
+    overflow:clip;
     width:100%;
     height:100%;
+    padding:20px;
+}
+.product_img img{
+    object-fit: cover;
+    width:100%;
+    height: 100%;
+}
+.info_section{
+    width:50%;
+    height:50%;
     padding:5px;
     display: flex;
     flex-direction: column;
