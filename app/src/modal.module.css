@@ -1,0 +1,93 @@
+.modal{
+    width:100vw;
+    height:100vh;
+    filter:blur(20px);
+    background-color: transparent;
+    z-index: 999;
+    display: flex;
+    flex-direction: row;
+}
+.main{
+    width:90%;
+    height:90%;
+    border-radius: 30px;
+    background-color: white;
+    box-shadow: 2px 2px 0px 2px rgba(0,0,0,0.7);
+    margin: auto;
+    padding:10px;
+}
+.cross{
+    width: 10%;
+    height: 10%;
+}
+.section{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+    column-gap: 10px;
+}
+.img_section{
+    width:100%;
+    height:100%;
+    padding:5px;
+    display: flex;
+    flex-direction: column;
+}
+.breadcrums{
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-align:left;
+}
+.product_img{
+    width:100%;
+    height:100%;
+    padding:20px;
+}
+.info_section{
+    width:100%;
+    height:100%;
+    padding:5px;
+    display: flex;
+    flex-direction: column;
+    row-gap:5px;
+}
+.name{
+    font-size:1.5rem;
+    color:#222;
+    font-weight: 600;
+    text-align: left;
+}
+.brand{
+    color:#818181;
+    font-size:1rem;
+    text-align: left;
+    font-weight: 500;
+}
+.price{
+    font-size: 1rem;
+    color:#222;
+    text-align: left;
+    font-weight: 600;
+}
+.info{
+    font-size: 1rem;
+    color:#222;
+    text-align: left;
+}
+.amount{
+    font-size: 1rem;
+    color:#222;
+    text-align: left;
+}
+.btn{
+    width:95%;
+    margin: auto;
+    border-radius: 999px;
+    border:1px solid #222;
+    color:#222;
+    background-color: white;
+    text-align: center;
+    padding: 10px;
+}

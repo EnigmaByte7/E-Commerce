@@ -12,8 +12,12 @@ import {useParams,Link,useNavigate} from 'react-router-dom'
 import tbl from './tbl.png'
 import toast, { Toaster } from 'react-hot-toast';
 const _ = require('lodash');
+let copy;
+import Modal from './Modal';
 
 export default function Product() {
+  const [isModal, setModal] = useState(false);
+  const [product, setProduct] = useState('');
   const banner = {
     'sofa':'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     'table':  tbl,
@@ -34,6 +38,7 @@ export default function Product() {
     try{
       let res = await fetch(`http://localhost:5000/api/users/products/${catg}`);
       res = await res.json();
+      copy = res.data;
       setData(res.data);
       setLoading(false);
     }
@@ -69,6 +74,7 @@ export default function Product() {
   return (
     <>
     <Toaster/>
+    {isModal && <Modal props={product}/>}
     <div className='container'>
         <div className='navbar1'>
             <div className='logo'>Oak & Ivory</div>
@@ -110,7 +116,7 @@ export default function Product() {
                 const {id, name , price, image_url, rating} = item;
                 const props = {id, name , price, image_url, rating};
                 return (
-                  <Item props = {props} id={id} ></Item>
+                  <Item props = {props} id={id} modal={isModal} setmodal={setModal} setproduct={setProduct}></Item>
                 )
               })
             }
@@ -173,11 +179,14 @@ const CategoryList = ()=>{
 
 const Item = (props) =>{
   
-  const viewProduct = (id)=>{
-    console.log(id);
+  const viewProduct = (props)=>{
+    const i = copy.filter((item)=> item.id === props.id)
+    console.log(props.modal);
+    props.setmodal(true);
+    props.setproduct(props)
   }
   return (
-    <div id={props.id} className='product-item' onClick={()=> {viewProduct(props.id)} }>
+    <div id={props.id} className='product-item' onClick={()=> {viewProduct(props)} }>
       <div className='product-img'>
         <img src={props.props.image_url}></img>
       </div>
