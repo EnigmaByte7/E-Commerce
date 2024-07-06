@@ -5,6 +5,10 @@
     display: flex;
     flex-direction: row;
     backdrop-filter: blur(10px);
+    position: fixed;
+    top:0;
+    left:0;
+    z-index: 1000;
 }
 .main{
     width:90%;
@@ -41,8 +45,8 @@
     text-align:left;
 }
 .product_img{
-    width:100%;
-    height:100%;
+    width:50%;
+    height:50%;
     padding:20px;
 }
 .info_section{
