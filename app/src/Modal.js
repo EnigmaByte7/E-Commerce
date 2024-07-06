@@ -5,6 +5,7 @@ import star from './star.png'
 
 export default function Modal(props) {
   const obj = props.props.props;
+  const amt = 1;
   console.log(obj);
   if(props.modal)
     document.body.style.overflow = 'hidden';
