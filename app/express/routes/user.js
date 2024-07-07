@@ -72,7 +72,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/addtocart',async (req, res)=>{
-    const {userid , productid, quantity} = req.body;
+    const {userid , name, price, image_url, quantity} = req.body;
     if(await Cart.findOne({userid})){
         const item = await Cart.findOne({userid});
         const selected = item.cart.find((element)=>element.productid === productid)
@@ -87,7 +87,7 @@ router.post('/addtocart',async (req, res)=>{
             res.status(200).json({message: 'Item Added to Cart'});}
         }
         else{
-            item.cart.push({productid,quantity:quantity});
+            item.cart.push({userid, name, price, image_url,quantity:quantity});
             res.status(200).json({message: 'Item Added to Cart'});
         }
         await item.save();

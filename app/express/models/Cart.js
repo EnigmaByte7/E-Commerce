@@ -3,7 +3,9 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const CartItemSchema = new Schema({
-    productid: { type: Number },
+    name:{type:String},
+    price:{type:Number},
+    image_url:{type:String},
     quantity: { type: Number }
 });
 
