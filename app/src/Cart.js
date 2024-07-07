@@ -5,6 +5,7 @@ import  { useEffect ,useState} from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 import logout from './logout.png'
 import { useNavigate,Link } from 'react-router-dom';
+import styles from './cart_style.module.css'
 
 export default function Cart() {
     const name = localStorage.getItem('user');
@@ -43,6 +44,47 @@ export default function Cart() {
     <div>
         <Toaster />
         <Navbar user={user} setUser={setUser} cart={cart}/>
+        <div className={styles.main}>
+            <div className={styles.cart}>
+                <div className={styles.cart_title}>
+                    Shoppping Cart
+                </div>
+                <div className={styles.main_cart}>
+                    <div className={styles.product_list}>
+                        <div className={styles.head}>
+                            <div className={styles.product}>Product</div>
+                            <div className={styles.price}>Price</div>
+                            <div className={styles.qty}>Quantity</div>
+                            <div className={tprice}>Total Price</div>
+                        </div>
+                        {
+                            //list funtion here
+                        }
+                    </div>
+                    <div className={styles.total}>
+                        <div className={styles.total_section}>
+                            <div className={styles.row}><div className={styles.cart_t}>Cart Total</div></div>
+                            <div className={styles.row}>
+                                <div className={styles.first}>Subtotal</div>
+                                <div className={styles.second}>price</div>
+                            </div>
+                            <div className={styles.row}>
+                                <div className={styles.first}>Shipping</div>
+                                <div className={styles.second}>price</div>
+                            </div>
+                            <div className={styles.row}>
+                                <div className={styles.first}>Tax</div>
+                                <div className={styles.second}>price</div>
+                            </div>
+                            <div className={styles.row}>
+                                <div className={styles.first}>Total</div>
+                                <div className={styles.second}>price</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     )
 }
