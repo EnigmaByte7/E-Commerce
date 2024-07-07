@@ -25,8 +25,8 @@ export default function Cart() {
         });
         const data = await response.json();
         if(response.ok){
-            setCartLen(data.cart.length)
             setCart(data.cart);
+            setCartLen(data.cart.length);
         }
         else{
             console.log(data.message);
@@ -40,9 +40,10 @@ export default function Cart() {
 
     if(id)
         fetchCartData(id);
-    })
+    },[])
     
     console.log(cart);
+    console.log(cartlen);
     return (
     <div>
         <Toaster />
@@ -61,7 +62,14 @@ export default function Cart() {
                             <div className={styles.tprice}>Total Price</div>
                         </div>
                         {
-                            //list funtion here
+                            cart &&
+                            cart.map((item) => {
+                                const {name, price, image_url, quantity, id} = item;
+                                const props = {name, price, image_url, quantity,id};
+                                return(
+                                    <Product props={props} key={props.id} />
+                                )
+                            })
                         }
                     </div>
                     <div className={styles.total}>
@@ -92,6 +100,28 @@ export default function Cart() {
             </div>
         </div>
     </div>
+    )
+}
+
+const Product = (props)=>{
+    const obj = props.props;
+    return (
+        <div className={styles.prouduct_snip}>
+            <div className={styles.img_cont}>
+                <img src={obj.image_url} alt='pro-img'></img>
+            </div>
+            <div className={styles.name_section}>
+                <div className={styles.title}>{obj.name}</div>
+                <div className={styles.brand}>by Homestead</div>
+            </div>
+            <div className={styles.price_section}>{obj.price}</div>
+            <div className={styles.qty_controller}>
+                <div className={styles.dec}>-</div>
+                <div className={styles.window}>{obj.quantity}</div>
+                <div className={styles.inc}>+</div>
+            </div>
+            <div className={styles.total_sum}>100</div>
+        </div>
     )
 }
 
