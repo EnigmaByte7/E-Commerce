@@ -1,10 +1,15 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
-const UserSchema = new Schema({
-    userid: { type: ObjectId, required: true },
-    fav: { type: Array }
+
+const FavItemSchema = new Schema({
+    productid: { type: Number }
 });
 
-const Fav = mongoose.model('Fav', UserSchema);
+const FavSchema = new Schema({
+    userid: { type: ObjectId, required: true, unique: true },
+    fav: [FavItemSchema]
+});
+
+const Fav = mongoose.model('Fav', FavSchema);
 module.exports = Fav;

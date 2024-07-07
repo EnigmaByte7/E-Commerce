@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import close from './close.png'
 import styles from './modal.module.css'
 import star from './star.png'
@@ -7,7 +7,7 @@ import { Rating } from 'react-simple-star-rating'
 
 export default function Modal(props) {
   const obj = props.props.props;
-  const amt = 1;
+  const [amt,setAmt] = useState(1);
   console.log(props);
   const closeModal = ()=>{
     if(props.modal)
@@ -16,19 +16,50 @@ export default function Modal(props) {
       document.body.style.overflow = 'visible'
     }
   }
-  const handleCart = ()=>{
+
+  const increment = ()=>{
+    if(amt < 6)
+      setAmt(amt++);
+  }
+  const decrement = ()=>{
+    if(amt != 1)
+      setAmt(amt--);
+  }
+  const handleCart = async ()=>{
     const name = localStorage.getItem('user');
     const userid = localStorage.getItem('userid');
     if(!name)
     {
+      console.log('im called');
       toast('Please Login to Continue!', {
         icon: '⛔',
       });
     }
     else{
-      
-    }    props.props.setmodal(false)
-    document.body.style.overflow = 'visible';
+      try {
+          const response = await fetch('http://localhost:5000/api/users/addtocart', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({  userid:userid, productid:obj.id ,quantity:amt}),
+          });
+          const data = await response.json();
+          if(response.ok)
+          {
+              toast.success('Item added to Cart!',{
+                  duration:2000,
+                  position:'top-center'
+              })
+              console.log(data.message);
+          }
+          if(!response.ok){
+              toast.error('Something went wrong!');
+          }
+      } catch (err) {
+          throw(err);
+      }
+    }    
   }
   if(props.modal)
     document.body.style.overflow = 'hidden';
@@ -51,14 +82,14 @@ export default function Modal(props) {
                 <div className={styles.info}>{obj.description} Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, omnis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ratione alias quos fugit nobis cum quam enim labore dolorum voluptatibus perferendis!</div>
                 <div className={styles.amount}>
                   <div className={styles.amt_container}>
-                    <div className={styles.inc}>+</div>
+                    <div onClick={increment} className={styles.inc}>+</div>
                     <div className={styles.window}>{amt}</div>
-                    <div className={styles.dec}>-</div>
+                    <div onClick={decrement} className={styles.dec}>-</div>
                   </div>
                 </div>
                 <div className='buttons'>
-                  <div className='buy-now'><button type='submit' className='now-buy'>Add to Cart</button></div>
-                  <div className='add-to-cart'><button type='submit' className='cart-button' onClick={handleCart}>Add to Favorites</button></div>
+                  <div className='buy-now'><button type='submit' className='now-buy' onClick={handleCart}>Add to Cart</button></div>
+                  <div className='add-to-cart'><button type='submit' className='cart-button' >Add to Favorites</button></div>
                 </div>
             </div>
         </div>

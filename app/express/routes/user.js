@@ -49,13 +49,6 @@ router.post('/register', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({ name, email, password: hashedPassword });
         await newUser.save();
-        const usr = await User.findOne({email});
-        const id = usr._id;
-        const cart = [];
-        const newCart = new Cart({id,cart});
-        await newCart.save();
-        const newFav = new Fav({id,cart});
-        await newFav.save();
         res.status(200).json({ message: 'User created successfully' });
     } catch (err) {
         console.log(err);
@@ -79,9 +72,27 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/addtocart',async (req, res)=>{
-    const {userid , productid} = req.body;
-    const userscart = await Cart.findOne({userid});
-    
+    const {userid , productid, quantity} = req.body;
+    if(await Cart.findOne({userid})){
+        const item = await Cart.findOne({userid});
+        const selected = item.cart.find((element)=>element.productid === productid)
+        if(selected)
+        {
+            selected.quantity += quantity;
+            res.status(200).json({message: 'Item Updated'});
+        }
+        else{
+            item.cart.push({productid,quantity:quantity});
+            res.status(200).json({message: 'Item Added'});
+        }
+    }
+    else{
+        const cart = [{productid: productid, quantity: quantity}]
+        const newCart = new Cart({userid, cart});
+        await newCart.save();
+        res.status(200).json({message: 'Cart Created and Item added'});
+    }
+    console.log('im here')
 })
 
 module.exports = router;
