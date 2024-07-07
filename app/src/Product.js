@@ -115,7 +115,10 @@ export default function Product() {
                 <div className='abt'>About</div>
             </div>
             <div className='icons'>
-                <img src={bag} alt='bag' id='cart'></img>
+            <div className='bag'>
+              <img src={bag} alt='bag' id='cart'></img>
+              {user && <div className='cart_length'>{cart}</div>}
+            </div>
                 <img onClick={handleClick} src={user != undefined ? logout : avatar} alt='avatar' id='profile'></img>
             </div>
         </div>
