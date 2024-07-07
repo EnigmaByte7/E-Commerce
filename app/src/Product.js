@@ -59,7 +59,7 @@ export default function Product() {
   const handleClick = (e)=>{
     e.preventDefault();
     if(user != null){
-      localStorage.removeItem('user');
+      localStorage.clear();
       toast.success('Logged Out!')
       localStorage.setItem('greeted','no')   
       navigate('/');

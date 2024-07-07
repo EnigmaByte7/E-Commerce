@@ -10,7 +10,35 @@ import { useNavigate,Link } from 'react-router-dom';
 
 export default function Hero() {
   const name = localStorage.getItem('user');
+  const id = localStorage.getItem('userid');
   const [user, setUser] = useState(name);  
+  const [cart, setCart] = useState(undefined);
+
+  const fetchCartDetails = async (id)=>{
+    try{
+      const response = await fetch('http://localhost:5000/api/users/getlen', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({  id:id }),
+    });
+    const data = await response.json();
+    if(response.ok){
+      console.log(data.length);
+    }
+  }
+  catch(err)
+  {
+    console.log(err);
+  }
+}
+
+  useEffect(()=>{
+    if(id)
+      fetchCartDetails(id);
+  })
+
   useEffect(()=>{  
     const greet = localStorage.getItem('greeted');
     setTimeout(()=>{
@@ -38,19 +66,16 @@ export default function Hero() {
   )
 }
 
-
-
 const Navbar = ({user, setUser})=>{
   const navigate = useNavigate();
   const handleClick = (e)=>{
     e.preventDefault();
     if(user != null){
-      localStorage.removeItem('user');
-      navigate('/');
-      localStorage.setItem('greeted','no')   
+      localStorage.clear();
+      navigate('/'); 
       toast.success('Logged Out!')  
       setUser(undefined);
-    }
+    } 
     else{
       navigate('/login');
     }

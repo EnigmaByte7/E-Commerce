@@ -101,4 +101,17 @@ router.post('/addtocart',async (req, res)=>{
     console.log('im here')
 })
 
+router.post('/getlen', async (req, res)=>{
+    const {id} = req.body;
+    const item = await Cart.findOne({id});
+    if(item)
+    {
+        const len = len(item.cart);
+        res.status(200).json({length:len});
+    }
+    else{
+        res.status(200).json({length:0});
+    }
+})
+
 module.exports = router;
