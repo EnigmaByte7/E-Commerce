@@ -14,6 +14,7 @@ export default function Hero() {
   const [user, setUser] = useState(name);  
   const [cart, setCart] = useState(undefined);
 
+  useEffect(()=>{
   const fetchCartDetails = async (id)=>{
     try{
       const response = await fetch('http://localhost:5000/api/users/getlen', {
@@ -25,19 +26,21 @@ export default function Hero() {
     });
     const data = await response.json();
     if(response.ok){
-      console.log(data.length);
+      setCart(data.length)
+    }
+    else{
+      console.log('err');
+      }
+    }
+    catch(err)
+    {
+      console.log(err);
     }
   }
-  catch(err)
-  {
-    console.log(err);
-  }
-}
 
-  useEffect(()=>{
-    if(id)
-      fetchCartDetails(id);
-  })
+  if(id)
+    fetchCartDetails(id);
+})
 
   useEffect(()=>{  
     const greet = localStorage.getItem('greeted');
@@ -56,7 +59,7 @@ export default function Hero() {
     <Toaster />
     <div className='Hero-container'>
       <img className='hero-img' src={hero} alt='main'></img>
-      <Navbar user={user} setUser={setUser} />
+      <Navbar user={user} setUser={setUser} cart={cart}/>
       <div className='moto'>
         <div className='moto-text'>Decorate Your Dream Space <br/> With Our Finest Collection</div>
         <Link to='/products/sofa' ><button className='explore'>Explore Collection</button></Link>
@@ -66,7 +69,7 @@ export default function Hero() {
   )
 }
 
-const Navbar = ({user, setUser})=>{
+const Navbar = ({user, setUser,cart})=>{
   const navigate = useNavigate();
   const handleClick = (e)=>{
     e.preventDefault();
@@ -89,7 +92,10 @@ const Navbar = ({user, setUser})=>{
             <div className='abt'>About</div>
         </div>
         <div className='icons'>
-            <img src={bag} alt='bag' id='cart'></img>
+            <div className='bag'>
+              <img src={bag} alt='bag' id='cart'></img>
+              {user && <div className='cart_length'>{cart}</div>}
+            </div>
             <img onClick={handleClick} src={user != undefined ? logout : avatar} alt='avatar' id='profile'></img>
         </div>
     </div>

@@ -412,3 +412,24 @@ a:active{
 #profile, #cart{
   cursor:pointer;
 }
+.bag{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.cart_length{
+  position: absolute;
+  width:18px;
+  height:18px;
+  top:5%;
+  left:60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 999px;
+  background-color: orange;
+  color:white;
+  font-size: 0.8rem;
+  font-weight: 600;
+}

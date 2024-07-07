@@ -16,8 +16,10 @@ const _ = require('lodash');
 let copy;
 
 export default function Product() {
+  const id = localStorage.getItem('userid');
   const [isModal, setModal] = useState(false);
   const [product, setProduct] = useState('');
+  const [cart, setCart] = useState(undefined);
   const banner = {
     'sofa':'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     'table':  tbl,
@@ -34,6 +36,35 @@ export default function Product() {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+
+  useEffect(()=>{
+    const fetchCartDetails = async (id)=>{
+      try{
+        const response = await fetch('http://localhost:5000/api/users/getlen', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({  id:id }),
+      });
+      const data = await response.json();
+      if(response.ok){
+        console.log(data.length);
+      }
+      else{
+        console.log('err');
+        }
+      }
+      catch(err)
+      {
+        console.log(err);
+      }
+    }
+  
+    if(id)
+      fetchCartDetails(id);
+  })
+
   const fetchData = async () => {
     try{
       let res = await fetch(`http://localhost:5000/api/users/products/${catg}`);

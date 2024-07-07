@@ -103,11 +103,12 @@ router.post('/addtocart',async (req, res)=>{
 
 router.post('/getlen', async (req, res)=>{
     const {id} = req.body;
-    const item = await Cart.findOne({id});
+    const item = await Cart.findOne({userid:id});
+    console.log(item.cart);
     if(item)
     {
-        const len = len(item.cart);
-        res.status(200).json({length:len});
+        const length = (item.cart).length;
+        res.status(200).json({length:length});
     }
     else{
         res.status(200).json({length:0});
