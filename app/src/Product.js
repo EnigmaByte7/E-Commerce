@@ -74,7 +74,7 @@ export default function Product() {
   return (
     <>
     <Toaster/>
-    {isModal && <Modal props={product} modal={isModal}/>}
+    {isModal && <Modal props={product} modal={isModal} setmodal={setModal}/>}
     <div className='container'>
         <div className='navbar1'>
             <div className='logo'>Oak & Ivory</div>
@@ -179,6 +179,16 @@ const CategoryList = ()=>{
 
 const Item = (props) =>{
   
+  const handleCart = ()=>{
+    const name = localStorage.getItem('user');
+    const userid = localStorage.getItem('userid');
+    if(!name)
+    {
+      toast('Please Login to Continue!', {
+        icon: '⛔',
+      });
+    }
+  }
   const viewProduct = (props)=>{
     props.setmodal(true);
     props.setproduct(props)
@@ -197,8 +207,8 @@ const Item = (props) =>{
           <div className='pricce'>₹{props.props.price}</div>
       </div>
       <div className='buttons'>
-        <div className='add-to-cart'><button type='submit' className='cart-button'>Add to Cart</button></div>
-        <div className='buy-now'><button type='submit' className='now-buy'>Buy Now</button></div>
+        <div className='add-to-cart'><button type='submit' onClick={handleCart} className='cart-button'>Add to Cart</button></div>
+        <div className='buy-now'><button onClick={handleCart} type='submit' className='now-buy'>Buy Now</button></div>
       </div>
     </div>
   )

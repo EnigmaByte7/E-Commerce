@@ -40,6 +40,7 @@ export default function Login() {
                 buttonRef.current.style.visibility = 'visible';
                 loadRef.current.style.visibility = 'hidden';
                 localStorage.setItem('user',data.username);
+                localStorage.setItem('userid',data.id);
                 setTimeout(()=>{
                     navigate('/');
                 },2000);

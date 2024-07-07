@@ -2,18 +2,37 @@ import React from 'react'
 import close from './close.png'
 import styles from './modal.module.css'
 import star from './star.png'
+import toast, { Toaster } from 'react-hot-toast';
 import { Rating } from 'react-simple-star-rating'
 
 export default function Modal(props) {
   const obj = props.props.props;
   const amt = 1;
-  console.log(obj);
   const closeModal = ()=>{
-
+    if(props.modal)
+    {
+      props.setmodal(false);
+      document.body.style.overflow = 'visible'
+    }
+  }
+  const handleCart = ()=>{
+    const name = localStorage.getItem('user');
+    const userid = localStorage.getItem('userid');
+    if(!name)
+    {
+      toast('Please Login to Continue!', {
+        icon: '⛔',
+      });
+    }
+    else{
+      
+    }
   }
   if(props.modal)
     document.body.style.overflow = 'hidden';
   return (
+    <>
+    <Toaster />
     <div className={styles.modal}>
       <div className={styles.main}>
         <div className={styles.cross}><img src={close} alt='crossbtn' onClick={closeModal}></img></div>
@@ -37,11 +56,12 @@ export default function Modal(props) {
                 </div>
                 <div className='buttons'>
                   <div className='buy-now'><button type='submit' className='now-buy'>Add to Cart</button></div>
-                  <div className='add-to-cart'><button type='submit' className='cart-button'>Add to Favorites</button></div>
+                  <div className='add-to-cart'><button type='submit' className='cart-button' onClick={handleCart}>Add to Favorites</button></div>
                 </div>
             </div>
         </div>
       </div>
     </div>
+    </>
   )
 }
