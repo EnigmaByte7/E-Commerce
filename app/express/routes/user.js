@@ -93,7 +93,7 @@ router.post('/addtocart',async (req, res)=>{
         await item.save();
     }
     else{
-        const cart = [{productid: productid, quantity: quantity}]
+        const cart = [{userid, name, price, image_url, quantity: quantity}]
         const newCart = new Cart({userid, cart});
         await newCart.save();
         res.status(200).json({message: 'Cart Created and Item added'});
@@ -104,15 +104,27 @@ router.post('/addtocart',async (req, res)=>{
 router.post('/getlen', async (req, res)=>{
     const {id} = req.body;
     const item = await Cart.findOne({userid:id});
-    console.log(item.cart);
     if(item)
     {
         const length = (item.cart).length;
         res.status(200).json({length:length});
+        console.log(item.cart);
     }
     else{
         res.status(200).json({length:0});
     }
 })
 
+router.post('/getcart', async (req,res)=>{
+    const {id} = req.body;
+    const item = await Cart.findOne({userid:id});
+    console.log(item.cart);
+    if(item)
+    {
+        res.status(200).json({cart:item.cart});
+    }
+    else{
+        res.status(400).json({message:'Failed to get Cart details'});
+    }
+})
 module.exports = router;

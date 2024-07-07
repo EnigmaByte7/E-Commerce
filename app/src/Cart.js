@@ -11,9 +11,10 @@ export default function Cart() {
     const name = localStorage.getItem('user');
     const id = localStorage.getItem('userid');
     const [user, setUser] = useState(name);  
+    const [cartlen, setCartLen] = useState(undefined);
     const [cart, setCart] = useState(undefined);
     useEffect(()=>{
-    const fetchCartLength= async (id)=>{
+    const fetchCartData= async (id)=>{
         try{
         const response = await fetch('http://localhost:5000/api/users/getlen', {
             method: 'POST',
@@ -24,12 +25,13 @@ export default function Cart() {
         });
         const data = await response.json();
         if(response.ok){
-        setCart(data.length)
+            setCartLen(data.cart.length)
+            setCart(data.cart);
         }
         else{
-        console.log('err');
+            console.log(data.message);
         }
-        }
+    }
         catch(err)
         {
         console.log(err);
@@ -37,13 +39,14 @@ export default function Cart() {
     }
 
     if(id)
-        fetchCartLength(id);
+        fetchCartData(id);
     })
     
+    console.log(cart);
     return (
     <div>
         <Toaster />
-        <Navbar user={user} setUser={setUser} cart={cart}/>
+        <Navbar user={user} setUser={setUser} cart={cartlen}/>
         <div className={styles.main}>
             <div className={styles.cart}>
                 <div className={styles.cart_title}>
