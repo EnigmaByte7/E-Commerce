@@ -1,6 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const Cart = require('../models/Cart');
+const Fav = require('../models/Fav');
 const router = express.Router();
 const sofa = require('./sofa')
 const chair = require('./chair')
@@ -47,6 +49,13 @@ router.post('/register', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User({ name, email, password: hashedPassword });
         await newUser.save();
+        const usr = await User.findOne({email});
+        const id = usr._id;
+        const cart = [];
+        const newCart = new Cart({id,cart});
+        await newCart.save();
+        const newFav = new Fav({id,cart});
+        await newFav.save();
         res.status(200).json({ message: 'User created successfully' });
     } catch (err) {
         console.log(err);
@@ -63,10 +72,16 @@ router.post('/login', async (req, res) => {
         {
             return res.status(400).json({message: 'Invalid email or password'});
         }
-        res.status(200).json({ message: 'Logged In', username:user.name});
+        res.status(200).json({ message: 'Logged In', username:user.name,id:user._id});
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
 });
+
+router.post('/addtocart',async (req, res)=>{
+    const {userid , productid} = req.body;
+    const userscart = await Cart.findOne({userid});
+    
+})
 
 module.exports = router;

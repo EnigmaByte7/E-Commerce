@@ -15,7 +15,7 @@
     height:90%;
     border-radius: 30px;
     background-color: white;
-    box-shadow: 1px 1px 1px 0.5px rgba(0,0,0,0.7);
+    box-shadow: 1px 0px 10px 0px rgba(0, 0, 0, 0.7);
     left:10%;
     top:10%;
     padding:10px;
@@ -28,6 +28,7 @@
     justify-content: end;
     margin:10px;
     padding-right:20px;
+    cursor:pointer;
 }
 .cross img{
     transform: scale(0.8);
