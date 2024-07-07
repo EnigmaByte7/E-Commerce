@@ -47,7 +47,7 @@ export default function Cart() {
         <div className={styles.main}>
             <div className={styles.cart}>
                 <div className={styles.cart_title}>
-                    Shoppping Cart
+                    Shopping Cart
                 </div>
                 <div className={styles.main_cart}>
                     <div className={styles.product_list}>
@@ -80,6 +80,9 @@ export default function Cart() {
                                 <div className={styles.first}>Total</div>
                                 <div className={styles.second}>price</div>
                             </div>
+                            <div className={styles.btn}>
+                                <button type='button'>Proceed to Checkout</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -104,7 +107,7 @@ const Navbar = ({user, setUser,cart})=>{
       }
     }
     return (
-        <div className='navbar1'>
+        <div className={styles.navbar2}>
             <div className='logo'>Oak & Ivory</div>
             <div className='tabs'>
                 <Link to='/'><div className='home'>Home</div></Link>
