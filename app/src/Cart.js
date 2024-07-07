@@ -16,7 +16,7 @@ export default function Cart() {
     useEffect(()=>{
     const fetchCartData= async (id)=>{
         try{
-        const response = await fetch('http://localhost:5000/api/users/getlen', {
+        const response = await fetch('http://localhost:5000/api/users/getcart', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

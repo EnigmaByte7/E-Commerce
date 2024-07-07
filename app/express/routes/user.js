@@ -75,7 +75,7 @@ router.post('/addtocart',async (req, res)=>{
     const {userid , name, price, image_url, quantity} = req.body;
     if(await Cart.findOne({userid})){
         const item = await Cart.findOne({userid});
-        const selected = item.cart.find((element)=>element.productid === productid)
+        const selected = item.cart.find((element)=>element.name === name)
         if(selected)
         {
             if(selected.quantity == 6)
@@ -96,7 +96,7 @@ router.post('/addtocart',async (req, res)=>{
         const cart = [{userid, name, price, image_url, quantity: quantity}]
         const newCart = new Cart({userid, cart});
         await newCart.save();
-        res.status(200).json({message: 'Cart Created and Item added'});
+        res.status(200).json({message: 'Item Added to Cart'});
     }
     console.log('im here')
 })
