@@ -80,10 +80,11 @@ router.post('/addtocart',async (req, res)=>{
         {
             if(selected.quantity == 6)
             {
-                res.status(401).json({message: 'Purchase is limited to 6 units!'})
+                res.status(401).json({message: 'Purchase is limited to 6 units per item!'})
             }
+            else{
             selected.quantity += quantity;
-            res.status(200).json({message: 'Item Added to Cart'});
+            res.status(200).json({message: 'Item Added to Cart'});}
         }
         else{
             item.cart.push({productid,quantity:quantity});
