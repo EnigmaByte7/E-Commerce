@@ -106,7 +106,7 @@ export default function Cart() {
 const Product = (props)=>{
     const obj = props.props;
     return (
-        <div className={styles.prouduct_snip}>
+        <div className={styles.product_snip}>
             <div className={styles.img_cont}>
                 <img src={obj.image_url} alt='pro-img'></img>
             </div>

@@ -110,3 +110,60 @@
 .btn button{
     width:90%;
 }
+.product_snip{
+    width:100%;
+    padding:20px;
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+.img_cont{
+    border-radius: 15px;
+    overflow:clip;
+    width:30%;
+}
+.img_cont img{
+    width:100%;
+    max-height: fit-content;
+    object-fit: cover;
+}
+.name_section{
+    width:40%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    justify-content: center;
+}
+.title{
+    font-size: 1.2rem;
+    color:#222;
+    text-align: left;
+    font-weight: 600;
+}
+.brand{
+    font-size: 0.8rem;
+    color:#818181;
+    text-align: left;
+    font-weight: 500;
+}
+.price_section{
+    width: 10%;
+    color:#222;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+}
+.qty_controller{
+    width:10%;
+    display: flex;
+    flex-direction: row;
+    column-gap:10px;
+}
+.total_sum{
+    color:orange;
+    font-size: 1rem;
+    width:10%;
+    font-weight: 600;
+}
