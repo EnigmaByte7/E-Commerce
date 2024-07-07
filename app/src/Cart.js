@@ -55,7 +55,7 @@ export default function Cart() {
                             <div className={styles.product}>Product</div>
                             <div className={styles.price}>Price</div>
                             <div className={styles.qty}>Quantity</div>
-                            <div className={tprice}>Total Price</div>
+                            <div className={styles.tprice}>Total Price</div>
                         </div>
                         {
                             //list funtion here
