@@ -47,14 +47,14 @@ export default function Modal(props) {
           const data = await response.json();
           if(response.ok)
           {
-              toast.success('Item added to Cart!',{
+              toast.success(data.message,{
                   duration:2000,
                   position:'top-center'
               })
               console.log(data.message);
           }
           if(!response.ok){
-              toast.error('Something went wrong!');
+              toast.error(data.message);
           }
       } catch (err) {
           throw(err);

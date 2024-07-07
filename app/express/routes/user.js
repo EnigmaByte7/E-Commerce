@@ -83,11 +83,11 @@ router.post('/addtocart',async (req, res)=>{
                 res.status(401).json({message: 'Purchase is limited to 6 units!'})
             }
             selected.quantity += quantity;
-            res.status(200).json({message: 'Item Updated'});
+            res.status(200).json({message: 'Item Added to Cart'});
         }
         else{
             item.cart.push({productid,quantity:quantity});
-            res.status(200).json({message: 'Item Added'});
+            res.status(200).json({message: 'Item Added to Cart'});
         }
         await item.save();
     }
