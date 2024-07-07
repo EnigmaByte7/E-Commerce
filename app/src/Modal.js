@@ -8,8 +8,10 @@ export default function Modal(props) {
   const obj = props.props.props;
   const amt = 1;
   console.log(obj);
+  console.log(props);
   const closeModal = ()=>{
-
+    props.props.setmodal(false)
+    document.body.style.overflow = 'visible';
   }
   if(props.modal)
     document.body.style.overflow = 'hidden';
