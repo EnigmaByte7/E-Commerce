@@ -78,6 +78,10 @@ router.post('/addtocart',async (req, res)=>{
         const selected = item.cart.find((element)=>element.productid === productid)
         if(selected)
         {
+            if(selected.quantity == 6)
+            {
+                res.status(401).json({message: 'Purchase is limited to 6 units!'})
+            }
             selected.quantity += quantity;
             res.status(200).json({message: 'Item Updated'});
         }
@@ -85,6 +89,7 @@ router.post('/addtocart',async (req, res)=>{
             item.cart.push({productid,quantity:quantity});
             res.status(200).json({message: 'Item Added'});
         }
+        await item.save();
     }
     else{
         const cart = [{productid: productid, quantity: quantity}]

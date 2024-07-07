@@ -7,7 +7,7 @@ import { Rating } from 'react-simple-star-rating'
 
 export default function Modal(props) {
   const obj = props.props.props;
-  const [amt,setAmt] = useState(1);
+  let [amt,setAmt] = useState(1);
   console.log(props);
   const closeModal = ()=>{
     if(props.modal)
@@ -19,11 +19,11 @@ export default function Modal(props) {
 
   const increment = ()=>{
     if(amt < 6)
-      setAmt(amt++);
+      setAmt((amt)=>amt+1);
   }
   const decrement = ()=>{
     if(amt != 1)
-      setAmt(amt--);
+      setAmt((amt)=>amt-1);
   }
   const handleCart = async ()=>{
     const name = localStorage.getItem('user');
