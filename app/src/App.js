@@ -9,6 +9,7 @@ import Product from './Product';
 import Login from './Login';
 import { BrowserRouter as Router,Routes, Route, Link } from 'react-router-dom';
 import Register from './Register';
+import Cart from './Cart'
 
 function App() {
   return (
@@ -32,6 +33,9 @@ function App() {
           }></Route>
           <Route path='/register' element={
             <Register />
+          }></Route>
+          <Route path='/cart' element={
+            <Cart />
           }></Route>
    </Routes>
   </Router>

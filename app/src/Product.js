@@ -49,7 +49,7 @@ export default function Product() {
       });
       const data = await response.json();
       if(response.ok){
-        console.log(data.length);
+        setCart(data.length)
       }
       else{
         console.log('err');
