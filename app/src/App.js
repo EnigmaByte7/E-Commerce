@@ -10,6 +10,7 @@ import Login from './Login';
 import { BrowserRouter as Router,Routes, Route, Link } from 'react-router-dom';
 import Register from './Register';
 import Cart from './Cart'
+import Fav from './Fav'
 
 function App() {
   return (
@@ -36,6 +37,9 @@ function App() {
           }></Route>
           <Route path='/cart' element={
             <Cart />
+          }></Route>
+          <Route path='/favorites' element={
+            <Fav />
           }></Route>
    </Routes>
   </Router>
