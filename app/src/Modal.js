@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import close from './close.png'
 import styles from './modal.module.css'
 import favo from './favo.png'
@@ -6,7 +6,9 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Rating } from 'react-simple-star-rating'
 
 export default function Modal(props) {
+  const userid = localStorage.getItem('userid');
   const obj = props.props.props;
+  const [isFav, setFav] = useState(false);
   let [amt,setAmt] = useState(1);
   console.log(props);
   const closeModal = ()=>{
@@ -48,6 +50,12 @@ export default function Modal(props) {
           const data = await response.json();
           if(response.ok)
           {
+              if(data.message === 'Item Removed from Favorites'){
+                setFav(false);
+              }
+              else if(data.message === 'Item Added to Favorites'){
+                setFav(true);
+              }
               toast.success(data.message,{
                   duration:2000,
                   position:'top-center'
@@ -100,7 +108,8 @@ export default function Modal(props) {
     }    
   }
 
-  const checkFav = async (name)=>{
+  useEffect(()=>{
+    const checkFav = async ()=>{
     const userid = localStorage.getItem('userid');
       try{
         const response = await fetch('http://localhost:5000/api/users/checkfav', {
@@ -108,24 +117,25 @@ export default function Modal(props) {
           headers: {
             'Content-type' : 'application/json',
           },
-          body: JSON.stringify({userid : userid, name : name}),
+          body: JSON.stringify({userid : userid, name : obj.name}),
         });
         const data = await response.json();
+        console.log(data.fav);
         if(response.ok && data.fav !== 'no favorites')
         {
           if(data.fav === 'true')
-            return 1;
-          else
-            return 0;
+            setFav(true);
         }
-        else
-          return 0;
       }
       catch(err)
       {
         console.log(err);
       }
-  }
+    }
+
+    checkFav();
+  },[userid, obj.name]);
+    
 
   if(props.modal)
     document.body.style.overflow = 'hidden';
@@ -143,7 +153,7 @@ export default function Modal(props) {
             <div className={styles.info_section}>
                 <div className={styles.name}>
                   <div>{obj.name}</div>
-                  { checkFav(obj.name) && <img src={favo} alt='liked'></img>}
+                  { (isFav && userid )&& <img src={favo} alt='liked'></img>}
                 </div>
                 <div className={styles.brand}>By Homestead</div>
                 <div className={styles.price}>₹{obj.price}</div>
@@ -158,7 +168,7 @@ export default function Modal(props) {
                 </div>
                 <div className='buttons'>
                   <div className='buy-now'><button type='submit' className='now-buy' onClick={handleCart}>Add to Cart</button></div>
-                  <div className='add-to-cart'><button type='submit' className='cart-button' onClick={handleFav} >{checkFav(obj.name) ? 'Remove from Fravorites' : 'Add to Favorites'}</button></div>
+                  <div className='add-to-cart'><button type='submit' className='cart-button' onClick={handleFav} >{ (isFav && userid) ? 'Remove from Fravorites' : 'Add to Favorites'}</button></div>
                 </div>
             </div>
         </div>
