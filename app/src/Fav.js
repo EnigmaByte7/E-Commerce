@@ -7,6 +7,7 @@ import logout from './logout.png'
 import { useNavigate,Link } from 'react-router-dom';
 import styles from './fav_style.module.css'
 import mpt from './mpt.png'
+import del from './del.png'
 
 let id;
 let name;
