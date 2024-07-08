@@ -84,6 +84,12 @@
     color:#222;
     font-weight: 700;
     text-align: left;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-right: 10px;
 }
 .brand{
     color:#818181;

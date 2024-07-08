@@ -120,7 +120,23 @@ router.post('/addtofav',async (req, res)=>{
         const fav = [{userid, name, price, image_url, quantity: quantity}]
         const newFav = new Fav({userid, fav});
         await newFav.save();
-        res.status(200).json({message: 'Wishlist Created'});
+        res.status(200).json({message: 'Item Added to Favorites'});
+    }
+})
+
+router.post('/checkfav',async(req,res)=>{
+    const {userid, name} = req.body;
+    const item = await Fav.findOne({userid});
+    if(item){
+        const res = item.fav.find((i)=> i.name === name);
+        if(res)
+            res.status(200).json({fav:'true'});
+        else{
+            res.status(200).json({fav:'false'});
+        }
+    }
+    else{
+        res.status(200).json({fav:'no favorites'});
     }
 })
 

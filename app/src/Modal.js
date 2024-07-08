@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import close from './close.png'
 import styles from './modal.module.css'
-import star from './star.png'
+import favo from './favo.png'
 import toast, { Toaster } from 'react-hot-toast';
 import { Rating } from 'react-simple-star-rating'
 
@@ -25,6 +25,44 @@ export default function Modal(props) {
     if(amt != 1)
       setAmt((amt)=>amt-1);
   }
+
+  const handleFav = async ()=>{
+    const name = localStorage.getItem('user');
+    const userid = localStorage.getItem('userid');
+    if(!name)
+    {
+      console.log('im called');
+      toast('Please Login to Continue!', {
+        icon: '⛔',
+      });
+    }
+    else{
+      try {
+          const response = await fetch('http://localhost:5000/api/users/addtofav', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({  userid:userid, name:obj.name, price:obj.price, image_url: obj.image_url}),
+          });
+          const data = await response.json();
+          if(response.ok)
+          {
+              toast.success(data.message,{
+                  duration:2000,
+                  position:'top-center'
+              })
+              console.log(data.message);
+          }
+          if(!response.ok){
+              toast.error(data.message);
+          }
+      } catch (err) {
+          throw(err);
+      }
+    }    
+  }
+
   const handleCart = async ()=>{
     const name = localStorage.getItem('user');
     const userid = localStorage.getItem('userid');
@@ -61,6 +99,34 @@ export default function Modal(props) {
       }
     }    
   }
+
+  const checkFav = async (name)=>{
+    const userid = localStorage.getItem('userid');
+      try{
+        const response = await fetch('http://localhost:5000/api/users/checkfav', {
+          method : 'POST',
+          headers: {
+            'Content-type' : 'application/json',
+          },
+          body: JSON.stringify({userid : userid, name : name}),
+        });
+        const data = await response.json();
+        if(response.ok && data.fav !== 'no favorites')
+        {
+          if(data.fav === 'true')
+            return 1;
+          else
+            return 0;
+        }
+        else
+          return 0;
+      }
+      catch(err)
+      {
+        console.log(err);
+      }
+  }
+
   if(props.modal)
     document.body.style.overflow = 'hidden';
   return (
@@ -75,7 +141,10 @@ export default function Modal(props) {
                 <div className={styles.product_img}><img src={obj.image_url}></img></div>
             </div>
             <div className={styles.info_section}>
-                <div className={styles.name}>{obj.name}</div>
+                <div className={styles.name}>
+                  <div>{obj.name}</div>
+                  { checkFav(obj.name) && <img src={favo} alt='liked'></img>}
+                </div>
                 <div className={styles.brand}>By Homestead</div>
                 <div className={styles.price}>₹{obj.price}</div>
                 <div className={styles.star}><Rating size={25} initialValue={obj.rating} allowFraction={true} readonly={true}/></div>
@@ -89,7 +158,7 @@ export default function Modal(props) {
                 </div>
                 <div className='buttons'>
                   <div className='buy-now'><button type='submit' className='now-buy' onClick={handleCart}>Add to Cart</button></div>
-                  <div className='add-to-cart'><button type='submit' className='cart-button' >Add to Favorites</button></div>
+                  <div className='add-to-cart'><button type='submit' className='cart-button' onClick={handleFav} >{checkFav(obj.name) ? 'Remove from Fravorites' : 'Add to Favorites'}</button></div>
                 </div>
             </div>
         </div>
