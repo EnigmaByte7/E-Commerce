@@ -207,10 +207,36 @@
     color:#818181;
     font-size: 1.05rem;
     font-weight: 600;
+    cursor:pointer;
 }
 .window{
     color:#818181;
     font-size: 0.9rem;
     font-weight: 600;
 }
-
+.empty{
+    display: flex;
+    flex-direction: column;
+    row-gap :20px;
+    width:30%;
+    margin:auto;
+}
+.empty img{
+    object-fit: contain;
+}
+.empty_text{
+    font-size:1.3rem;
+    color: #ff4e5a;
+    font-weight: 600;
+    text-align: center;
+    width: 100%;
+    padding:5px;
+}
+.logg{
+    font-size:1.3rem;
+    color: #a7a7a7;
+    font-weight: 600;
+    text-align: center;
+    width: 100%;
+    padding:5px;
+}

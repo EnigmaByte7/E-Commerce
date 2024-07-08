@@ -98,7 +98,6 @@ router.post('/addtocart',async (req, res)=>{
         await newCart.save();
         res.status(200).json({message: 'Item Added to Cart'});
     }
-    console.log('im here')
 })
 
 router.post('/getlen', async (req, res)=>{
@@ -116,9 +115,8 @@ router.post('/getlen', async (req, res)=>{
 })
 
 router.post('/getcart', async (req,res)=>{
-    const {id} = req.body;
-    const item = await Cart.findOne({userid:id});
-    console.log(item.cart);
+    const {userid} = req.body;
+    const item = await Cart.findOne({userid});
     if(item)
     {
         res.status(200).json({cart:item.cart});
@@ -127,4 +125,47 @@ router.post('/getcart', async (req,res)=>{
         res.status(400).json({message:'Failed to get Cart details'});
     }
 })
+
+router.post('/inc',async (req, res)=>{
+    const {userid , name} = req.body;
+    const item = await Cart.findOne({userid});
+    if(item){
+        const selected = item.cart.find((element)=>element.name === name.name)
+        console.log(selected);
+        if(selected)
+        {
+            if(selected.quantity == 6)
+            {
+                res.status(200).json({message: 'limit'})
+            }
+            else{
+            selected.quantity += 1;
+            res.status(200).json({message:'increased'});
+        }
+        }
+        await item.save();
+    }
+})
+
+router.post('/dec',async (req, res)=>{
+    const {userid , name} = req.body;
+    const item = await Cart.findOne({userid});
+    if(item){
+        const selected = item.cart.find((element)=>element.name === name.name)
+        if(selected)
+        {
+            if(selected.quantity == 1)
+            {
+                res.status(200).json({message: 'remove'})
+                item.cart = item.cart.filter((i)=> i.name !== name.name);
+            }
+            else{
+            selected.quantity -= 1;
+            res.status(200).json({message:'increased'});
+        }
+        }
+        await item.save();
+    }
+})
+
 module.exports = router;
