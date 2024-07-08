@@ -107,7 +107,6 @@ router.post('/getlen', async (req, res)=>{
     {
         const length = (item.cart).length;
         res.status(200).json({length:length});
-        console.log(item.cart);
     }
     else{
         res.status(200).json({length:0});

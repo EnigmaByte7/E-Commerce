@@ -15,7 +15,6 @@ export default function Cart() {
     const [cartlen, setCartLen] = useState(undefined);
     const [cart, setCart] = useState(undefined);
     const [total, setTotal] = useState(0);
-
     const fetchCartData= async (id)=>{
         try{
         const response = await fetch('http://localhost:5000/api/users/getcart', {
@@ -45,23 +44,25 @@ export default function Cart() {
     useEffect(()=>{
     if(id)
         fetchCartData(id);
-    },[])
-
+    },[id])
+    
+    console.log(cart);
     return (
         <div>
             <Toaster />
-            <Navbar user={user} setUser={setUser} cart={cartlen} />
-            {cart === undefined ? (
+            <Navbar user={user} setUser={setUser} cart={cartlen} setcart={setCart}/>
+            {
+            user === null? (
             <div className={styles.empty}>
                 <img src='https://cdn.pixabay.com/photo/2012/05/07/13/32/black-48472_640.png' alt='loggedout'></img>
                 <div className={styles.logg}>Please Login to Continue!</div>
             </div>) :
-             cart && cart.length === 0 ? (
+             (cart && cart.length === 0) ? (
                 <div className={styles.empty}>
                     <img src={mpt} alt='Empty Cart' />
                     <div className={styles.empty_text}>Oops! Your Cart is Empty. </div>
                 </div>
-            ) : (
+            ): cart ? (
                 <div className={styles.cart}>
                     <div className={styles.cart_title}>
                         Shopping Cart
@@ -109,7 +110,7 @@ export default function Cart() {
                         </div>
                     </div>
                 </div>
-            )}
+            ): null}
         </div>
     );
 }
@@ -183,15 +184,16 @@ const Product = ({ props, fetchCartData }) => {
     )
 }
 
-const Navbar = ({user, setUser,cart})=>{
+const Navbar = ({user, setUser,cart,setcart})=>{
     const navigate = useNavigate();
     const handleClick = (e)=>{
       e.preventDefault();
       if(user != null){
         localStorage.clear();
+        setUser(undefined);
+        setcart(undefined);
         navigate('/'); 
         toast.success('Logged Out!')  
-        setUser(undefined);
       } 
       else{
         navigate('/login');
