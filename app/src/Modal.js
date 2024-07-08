@@ -168,7 +168,7 @@ export default function Modal(props) {
                 </div>
                 <div className='buttons'>
                   <div className='buy-now'><button type='submit' className='now-buy' onClick={handleCart}>Add to Cart</button></div>
-                  <div className='add-to-cart'><button type='submit' className='cart-button' onClick={handleFav} >{ (isFav && userid) ? 'Remove from Fravorites' : 'Add to Favorites'}</button></div>
+                  <div className='add-to-cart'><button type='submit' className='cart-button' onClick={handleFav} >{ (isFav && userid) ? 'Remove from Favorites' : 'Add to Favorites'}</button></div>
                 </div>
             </div>
         </div>
