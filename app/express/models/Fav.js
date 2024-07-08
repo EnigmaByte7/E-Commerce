@@ -3,7 +3,9 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const FavItemSchema = new Schema({
-    productid: { type: Number }
+    name:{type:String},
+    price:{type:Number},
+    image_url:{type:String},
 });
 
 const FavSchema = new Schema({

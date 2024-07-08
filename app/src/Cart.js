@@ -8,65 +8,73 @@ import { useNavigate,Link } from 'react-router-dom';
 import styles from './cart_style.module.css'
 import mpt from './mpt.png'
 
-const id = localStorage.getItem('userid');
-const name = localStorage.getItem('user');
+let id;
+let name;
 export default function Cart() {
-    const [user, setUser] = useState(name);  
-    const [cartlen, setCartLen] = useState(undefined);
-    const [cart, setCart] = useState(undefined);
+    const [user, setUser] = useState(localStorage.getItem('user'));
+    const [cartLen, setCartLen] = useState(0);
+    const [cart, setCart] = useState([]);
     const [total, setTotal] = useState(0);
-    const fetchCartData= async (id)=>{
-        try{
-        const response = await fetch('http://localhost:5000/api/users/getcart', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({  userid:id }),
-        });
-        const data = await response.json();
-        if(response.ok){
-            setCart(data.cart);
-            setCartLen(data.cart.length);
-            const calculatedTotal = data.cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-            setTotal(calculatedTotal);
-        }
-        else{
-            console.log(data.message);
-        }
-    }
-        catch(err)
-        {
-        console.log(err);
-        }
-    }
 
-    useEffect(()=>{
-    if(id)
-        fetchCartData(id);
-    },[id])
+    const fetchCartData = async (id) => {
+        try {
+            const response = await fetch('http://localhost:5000/api/users/getcart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userid: id }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+                setCart(data.cart);
+                setCartLen(data.cart.length);
+                const calculatedTotal = data.cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+                setTotal(calculatedTotal);
+            } else {
+                console.log(data.message);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    useEffect(() => {
+        id = localStorage.getItem('userid');
+        if (id) {
+            fetchCartData(id);
+        }
+    }, []);
+
+    useEffect(() => {
+        name = localStorage.getItem('user');
+        setUser(name);
+    }, []);
+
     
+    console.log(id);
+    console.log(name)
+    console.log(user)
     console.log(cart);
+    console.log(cartLen);
+
     return (
         <div>
             <Toaster />
-            <Navbar user={user} setUser={setUser} cart={cartlen} setcart={setCart}/>
-            {
-            user === null? (
-            <div className={styles.empty}>
-                <img src='https://cdn.pixabay.com/photo/2012/05/07/13/32/black-48472_640.png' alt='loggedout'></img>
-                <div className={styles.logg}>Please Login to Continue!</div>
-            </div>) :
-             (cart && cart.length === 0) ? (
+            <Navbar user={user} setUser={setUser} cart={cartLen} setcart={setCart} />
+            {user === null || user === undefined ? (
+                <div className={styles.empty}>
+                    <img src='https://cdn.pixabay.com/photo/2012/05/07/13/32/black-48472_640.png' alt='loggedout' />
+                    <div className={styles.logg}>Please Login to Continue!</div>
+                </div>
+            ) : cartLen === 0 ? (
                 <div className={styles.empty}>
                     <img src={mpt} alt='Empty Cart' />
-                    <div className={styles.empty_text}>Oops! Your Cart is Empty. </div>
+                    <div className={styles.empty_text}>Oops! Your Cart is Empty.</div>
                 </div>
-            ): cart ? (
+            ) : (
                 <div className={styles.cart}>
-                    <div className={styles.cart_title}>
-                        Shopping Cart
-                    </div>
+                    <div className={styles.cart_title}>Shopping Cart</div>
                     <div className={styles.main_cart}>
                         <div className={styles.product_list}>
                             <div className={styles.head}>
@@ -79,14 +87,14 @@ export default function Cart() {
                                 cart.map((item) => {
                                     const { name, price, image_url, quantity, id } = item;
                                     const props = { name, price, image_url, quantity, id };
-                                    return (
-                                        <Product props={props} key={props.id} fetchCartData={fetchCartData} />
-                                    );
+                                    return <Product props={props} key={props.id} fetchCartData={fetchCartData} />;
                                 })}
                         </div>
                         <div className={styles.total}>
                             <div className={styles.total_section}>
-                                <div className={styles.row1}><div className={styles.cart_t}>Cart Total</div></div>
+                                <div className={styles.row1}>
+                                    <div className={styles.cart_t}>Cart Total</div>
+                                </div>
                                 <div className={styles.row}>
                                     <div className={styles.first}>Subtotal</div>
                                     <div className={styles.second}>₹{total}</div>
@@ -110,12 +118,10 @@ export default function Cart() {
                         </div>
                     </div>
                 </div>
-            ): null}
+            )}
         </div>
     );
 }
-
-
 const Product = ({ props, fetchCartData }) => {
     const { name, price, image_url, quantity } = props;
 
@@ -185,20 +191,31 @@ const Product = ({ props, fetchCartData }) => {
 }
 
 const Navbar = ({user, setUser,cart,setcart})=>{
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
     const navigate = useNavigate();
-    const handleClick = (e)=>{
-      e.preventDefault();
-      if(user != null){
-        localStorage.clear();
-        setUser(undefined);
-        setcart(undefined);
-        navigate('/'); 
-        toast.success('Logged Out!')  
-      } 
-      else{
-        navigate('/login');
-      }
-    }
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        if (user) {
+            localStorage.clear();
+            setUser(null);
+            setcart([]);
+            setIsLoggingOut(true);
+            toast.success('Logged Out!');
+        } else {
+            navigate('/login');
+        }
+    };
+
+    useEffect(() => {
+        if (isLoggingOut && !user) {
+            navigate('/');
+            setIsLoggingOut(false);
+        }
+    }, [isLoggingOut, user, navigate]);
+
+    
+
     return (
         <div className={styles.navbar2}>
             <div className='logo'>Oak & Ivory</div>

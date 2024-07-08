@@ -100,6 +100,30 @@ router.post('/addtocart',async (req, res)=>{
     }
 })
 
+router.post('/addtofav',async (req, res)=>{
+    const {userid , name, price, image_url} = req.body;
+    if(await Fav.findOne({userid})){
+        const item = await Fav.findOne({userid});
+        const selected = item.fav.find((element)=>element.name === name)
+        if(selected)
+        {
+            item.fav = item.fav.filter((i)=> i.name === name)
+            res.status(200).json({message:'Item Removed from Favorites'});
+        }
+        else{
+            item.fav.push({userid, name, price, image_url});
+            res.status(200).json({message: 'Item Added to Favorites'});
+        }
+        await item.save();
+    }
+    else{
+        const fav = [{userid, name, price, image_url, quantity: quantity}]
+        const newFav = new Fav({userid, fav});
+        await newFav.save();
+        res.status(200).json({message: 'Wishlist Created'});
+    }
+})
+
 router.post('/getlen', async (req, res)=>{
     const {id} = req.body;
     const item = await Cart.findOne({userid:id});
