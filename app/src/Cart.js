@@ -13,6 +13,7 @@ export default function Cart() {
     const [user, setUser] = useState(name);  
     const [cartlen, setCartLen] = useState(undefined);
     const [cart, setCart] = useState(undefined);
+    const [total, setTotal] = useState(0);
     useEffect(()=>{
     const fetchCartData= async (id)=>{
         try{
@@ -27,6 +28,8 @@ export default function Cart() {
         if(response.ok){
             setCart(data.cart);
             setCartLen(data.cart.length);
+            const calculatedTotal = data.cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+            setTotal(calculatedTotal);
         }
         else{
             console.log(data.message);
@@ -74,22 +77,22 @@ export default function Cart() {
                     </div>
                     <div className={styles.total}>
                         <div className={styles.total_section}>
-                            <div className={styles.row}><div className={styles.cart_t}>Cart Total</div></div>
+                            <div className={styles.row1}><div className={styles.cart_t}>Cart Total</div></div>
                             <div className={styles.row}>
                                 <div className={styles.first}>Subtotal</div>
-                                <div className={styles.second}>price</div>
+                                <div className={styles.second}>₹{total}</div>
                             </div>
                             <div className={styles.row}>
                                 <div className={styles.first}>Shipping</div>
-                                <div className={styles.second}>price</div>
+                                <div className={styles.second}>₹{(total * 5)/100}</div>
                             </div>
                             <div className={styles.row}>
                                 <div className={styles.first}>Tax</div>
-                                <div className={styles.second}>price</div>
+                                <div className={styles.second}>₹{(total * 6)/100}</div>
                             </div>
                             <div className={styles.row}>
-                                <div className={styles.first}>Total</div>
-                                <div className={styles.second}>price</div>
+                                <div className={styles.firstfinal}>Total</div>
+                                <div className={styles.secondfinal}>₹{(total * 5)/100 + (total * 6)/100 + total}</div>
                             </div>
                             <div className={styles.btn}>
                                 <button type='button'>Proceed to Checkout</button>
@@ -114,13 +117,13 @@ const Product = (props)=>{
                 <div className={styles.title}>{obj.name}</div>
                 <div className={styles.brand}>by Homestead</div>
             </div>
-            <div className={styles.price_section}>{obj.price}</div>
+            <div className={styles.price_section}>₹{obj.price}</div>
             <div className={styles.qty_controller}>
                 <div className={styles.dec}>-</div>
                 <div className={styles.window}>{obj.quantity}</div>
                 <div className={styles.inc}>+</div>
             </div>
-            <div className={styles.total_sum}>100</div>
+            <div className={styles.total_sum}>₹ {(obj.price * obj.quantity)}</div>
         </div>
     )
 }
