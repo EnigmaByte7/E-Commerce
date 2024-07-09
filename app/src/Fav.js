@@ -14,24 +14,42 @@ let name;
 export default function Fav() {
     const [user, setUser] = useState(localStorage.getItem('user'));
     const [cartLen, setCartLen] = useState(0);
-    const [cart, setCart] = useState([]);
-    const [total, setTotal] = useState(0);
+    const [fav, setFav] = useState([]);
 
-    const fetchCartData = async (id) => {
+    const fetchFavData = async (id) => {
         try {
-            const response = await fetch('http://localhost:5000/api/users/getcart', {
-                method: 'POST',
+            const response = await fetch('http://localhost:5000/api/users/getfav', {
+                method : 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                  'Content-type' : 'application/json',
                 },
-                body: JSON.stringify({ userid: id }),
-            });
+                body: JSON.stringify({userid : id}),
+              });
             const data = await response.json();
             if (response.ok) {
-                setCart(data.cart);
-                setCartLen(data.cart.length);
-                const calculatedTotal = data.cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-                setTotal(calculatedTotal);
+                setFav(data.fav);
+                
+            } else {
+                console.log(data.message);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const fetchCartLen = async (id) => {
+        try {
+            const response = await fetch('http://localhost:5000/api/users/getlen', {
+                method : 'POST',
+                headers: {
+                  'Content-type' : 'application/json',
+                },
+                body: JSON.stringify({userid : id}),
+              });
+            const data = await response.json();
+            if (response.ok) {
+                setCartLen(data.length);
+                
             } else {
                 console.log(data.message);
             }
@@ -43,7 +61,14 @@ export default function Fav() {
     useEffect(() => {
         id = localStorage.getItem('userid');
         if (id) {
-            fetchCartData(id);
+            fetchCartLen(id);
+        }
+    }, []);
+
+    useEffect(() => {
+        id = localStorage.getItem('userid');
+        if (id) {
+            fetchFavData(id);
         }
     }, []);
 
@@ -56,19 +81,19 @@ export default function Fav() {
     console.log(id);
     console.log(name)
     console.log(user)
-    console.log(cart);
+    console.log(fav);
     console.log(cartLen);
 
     return (
         <div>
             <Toaster />
-            <Navbar user={user} setUser={setUser} cart={cartLen} setcart={setCart} />
+            <Navbar user={user} setUser={setUser} cart={cartLen} />
             {user === null || user === undefined ? (
                 <div className={styles.empty}>
                     <img src='https://cdn.pixabay.com/photo/2012/05/07/13/32/black-48472_640.png' alt='loggedout' />
                     <div className={styles.logg}>Please Login to Continue!</div>
                 </div>
-            ) : cartLen === 0 ? (
+            ) : fav.length === 0 ? (
                 <div className={styles.empty}>
                     <img src={mpt} alt='Empty Cart' />
                     <div className={styles.empty_text}>Oops! Your WishList is Empty.</div>
@@ -82,11 +107,11 @@ export default function Fav() {
                                 <div className={styles.product}>Product</div>
                                 <div className={styles.price}>Price</div>
                             </div>
-                            {cart &&
-                                cart.map((item) => {
+                            {fav &&
+                                fav.map((item) => {
                                     const { name, price, image_url, id } = item;
                                     const props = { name, price, image_url, id };
-                                    return <Product props={props} key={props.id} fetchCartData={fetchCartData} />;
+                                    return <Product props={props} key={props.id} fetchFavData={fetchFavData} />;
                                 })}
                         </div>
                     </div>
@@ -95,7 +120,7 @@ export default function Fav() {
         </div>
     );
 }
-const Product = ({ props, fetchCartData }) => {
+const Product = ({ props, fetchFavData }) => {
     const { name, price, image_url } = props;
 
     return (
@@ -108,6 +133,9 @@ const Product = ({ props, fetchCartData }) => {
                 <div className={styles.brand}>by Homestead</div>
             </div>
             <div className={styles.price_section}>₹{price}</div>
+            <div className={styles.del_section}>
+                <img src={del} alt='del'></img>
+            </div>
         </div>
     )
 }

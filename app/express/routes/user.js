@@ -140,6 +140,18 @@ router.post('/checkfav',async(req,res)=>{
     }
 })
 
+router.post('/getfav', async (req,res)=>{
+    const {userid} = req.body;
+    const item = await Fav.findOne({userid});
+    if(item)
+    {
+        res.status(200).json({fav:item.fav});
+    }
+    else{
+        res.status(400).json({message:'Failed to get Cart details'});
+    }
+})
+
 router.post('/getlen', async (req, res)=>{
     const {id} = req.body;
     const item = await Cart.findOne({userid:id});
