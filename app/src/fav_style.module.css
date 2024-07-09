@@ -13,7 +13,7 @@
     color:#222;
     font-size: 1.5rem;
     font-weight:600;
-    width:90%;
+    width:70%;
     text-align: left;
     padding-left: 30px;
     margin:auto;
@@ -30,7 +30,7 @@
     padding:20px;
     border-radius: 20px;
     background-color: white;
-    width:90%;
+    width:70%;
     height: max-content;
     display: flex;
     flex-direction: column;
@@ -47,14 +47,15 @@
     font-size: 1rem;
     font-weight: 600;
     padding: 0px 20px;
+    justify-content: space-between;
 }
 .product{
     width:50%;
     text-align: left;
 }
 .price{
-    width:30%;
-    text-align: center;
+    width:38%;
+    text-align: left;
 }
 .navbar2{
     display: flex;
