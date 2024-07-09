@@ -6,15 +6,15 @@ import toast, { Toaster } from 'react-hot-toast';
 import logout from './logout.png'
 import { useNavigate,Link } from 'react-router-dom';
 import styles from './fav_style.module.css'
-import mpt from './mpt.png'
 import del from './del.png'
+import wsh from './wsh.png'
 
-let id;
 let name;
 export default function Fav() {
     const [user, setUser] = useState(localStorage.getItem('user'));
     const [cartLen, setCartLen] = useState(0);
     const [fav, setFav] = useState([]);
+    const [id, setId] = useState(localStorage.getItem('userid'));
 
     const fetchFavData = async (id) => {
         try {
@@ -47,6 +47,7 @@ export default function Fav() {
                 body: JSON.stringify({userid : id}),
               });
             const data = await response.json();
+            console.log(data)
             if (response.ok) {
                 setCartLen(data.length);
                 
@@ -58,18 +59,10 @@ export default function Fav() {
         }
     };
 
+    
     useEffect(() => {
-        id = localStorage.getItem('userid');
-        if (id) {
-            fetchCartLen(id);
-        }
-    }, []);
-
-    useEffect(() => {
-        id = localStorage.getItem('userid');
-        if (id) {
-            fetchFavData(id);
-        }
+        const Id = localStorage.getItem('userid');
+        setId(Id);
     }, []);
 
     useEffect(() => {
@@ -77,7 +70,18 @@ export default function Fav() {
         setUser(name);
     }, []);
 
-    
+    useEffect(() => {
+        if (user) {
+            fetchCartLen(id);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (id) {
+            fetchFavData(id);
+        }
+    }, []);
+
     console.log(id);
     console.log(name)
     console.log(user)
@@ -87,7 +91,7 @@ export default function Fav() {
     return (
         <div>
             <Toaster />
-            <Navbar user={user} setUser={setUser} cart={cartLen} />
+            <Navbar user={user} setUser={setUser} setFav={setFav} cartLen={cartLen} />
             {user === null || user === undefined ? (
                 <div className={styles.empty}>
                     <img src='https://cdn.pixabay.com/photo/2012/05/07/13/32/black-48472_640.png' alt='loggedout' />
@@ -95,7 +99,7 @@ export default function Fav() {
                 </div>
             ) : fav.length === 0 ? (
                 <div className={styles.empty}>
-                    <img src={mpt} alt='Empty Cart' />
+                    <img src={wsh} alt='Empty Cart' />
                     <div className={styles.empty_text}>Oops! Your WishList is Empty.</div>
                 </div>
             ) : (
@@ -109,9 +113,9 @@ export default function Fav() {
                             </div>
                             {fav &&
                                 fav.map((item) => {
-                                    const { name, price, image_url, id } = item;
-                                    const props = { name, price, image_url, id };
-                                    return <Product props={props} key={props.id} fetchFavData={fetchFavData} />;
+                                    const { name, price, image_url, catg, product_id } = item;
+                                    const props = { name, price, image_url, product_id ,catg};
+                                    return <Product  props={props} key={props.product_id} setUser={setUser} fetchFavData={fetchFavData} />;
                                 })}
                         </div>
                     </div>
@@ -120,11 +124,47 @@ export default function Fav() {
         </div>
     );
 }
-const Product = ({ props, fetchFavData }) => {
-    const { name, price, image_url } = props;
+const Product = ({ props, fetchFavData, setUser,key }) => {
+    const navigate = useNavigate();
+    const { name, price, image_url,catg,product_id } = props;
+    console.log(catg);
+    console.log(product_id)
+    const userid = localStorage.getItem('userid');
+
+    const redirect = (id)=>{
+        navigate(`http://localhost:3000/products/${catg}/#${id}`);
+    }
+
+    const handleFav = async ()=>{
+        try {
+            const response = await fetch('http://localhost:5000/api/users/rmvfav', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({  userid:userid, name:name}),
+            });
+            const data = await response.json();
+            
+            console.log(data.message);
+            if(response.ok)
+            {
+                toast.success(data.message,{
+                    duration:2000,
+                    position:'top-center'
+                })
+            }
+            if(!response.ok){
+                toast.error(data.message);
+            }
+        } catch (err) {
+            throw(err);
+        }
+        fetchFavData(userid);
+    }    
 
     return (
-        <div className={styles.product_snip}>
+        <div id={product_id} onClick={()=>redirect(product_id)} className={styles.product_snip}>
             <div className={styles.img_cont}>
                 <img src={image_url} alt='pro-img'></img>
             </div>
@@ -134,22 +174,22 @@ const Product = ({ props, fetchFavData }) => {
             </div>
             <div className={styles.price_section}>₹{price}</div>
             <div className={styles.del_section}>
-                <img src={del} alt='del'></img>
+                <img  onClick={handleFav} src={del} alt='del'></img>
             </div>
         </div>
     )
 }
 
-const Navbar = ({user, setUser,cart,setcart})=>{
+const Navbar = ({user, setUser,cartLen,setFav})=>{
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const navigate = useNavigate();
-
+    console.log(cartLen);
     const handleClick = (e) => {
         e.preventDefault();
         if (user) {
             localStorage.clear();
             setUser(null);
-            setcart([]);
+            setFav([]);
             setIsLoggingOut(true);
             toast.success('Logged Out!');
         } else {
@@ -177,7 +217,7 @@ const Navbar = ({user, setUser,cart,setcart})=>{
             <div className='icons'>
             <div className='bag'>
             <Link to='/cart'><img src={bag} alt='bag' id='cart'></img></Link>
-              {user && <div className='cart_length'>{cart}</div>}
+              {user && <div className='cart_length'>{cartLen}</div>}
             </div>
                 <img onClick={handleClick} src={user != undefined ? logout : avatar} alt='avatar' id='profile'></img>
             </div>

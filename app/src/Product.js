@@ -38,14 +38,14 @@ export default function Product() {
   const [loading, setLoading] = useState(true);
 
   useEffect(()=>{
-    const fetchCartDetails = async (id)=>{
+    const fetchCartDetails = async (userid)=>{
       try{
         const response = await fetch('http://localhost:5000/api/users/getlen', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
           },
-          body: JSON.stringify({  id:id }),
+          body: JSON.stringify({  userid:userid }),
       });
       const data = await response.json();
       if(response.ok){
@@ -148,7 +148,7 @@ export default function Product() {
             {
               data.map((item) => {
                 const {id, name , price, image_url, rating,description} = item;
-                const props = {id, name , price, image_url, rating, description};
+                const props = {id, name , price, image_url, rating, description, catg};
                 return (
                   <Item props = {props} id={id} modal={isModal} setmodal={setModal} setproduct={setProduct}></Item>
                 )
@@ -181,7 +181,7 @@ const CategoryList = ()=>{
       <ul>
       <Link to='/products/vase'><li>Vases</li></Link>
       <Link to='/products/clock'><li>Clocks</li></Link>
-      <Link to='/products/figurines'><li>Figurines</li></Link>
+      <Link to='/products/statues'><li>Figurines</li></Link>
       </ul>
     </div>
     <div className='category-field'>

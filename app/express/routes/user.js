@@ -101,7 +101,7 @@ router.post('/addtocart',async (req, res)=>{
 })
 
 router.post('/addtofav',async (req, res)=>{
-    const {userid , name, price, image_url} = req.body;
+    const {userid , name, price, image_url, catg, product_id} = req.body;
     if(await Fav.findOne({userid})){
         const item = await Fav.findOne({userid});
         const selected = item.fav.find((element)=>element.name === name)
@@ -111,13 +111,13 @@ router.post('/addtofav',async (req, res)=>{
             res.status(200).json({message:'Item Removed from Favorites'});
         }
         else{
-            item.fav.push({userid, name, price, image_url});
+            item.fav.push({userid, name, price, image_url, product_id});
             res.status(200).json({message: 'Item Added to Favorites'});
         }
         await item.save();
     }
     else{
-        const fav = [{userid, name, price, image_url}]
+        const fav = [{userid, name, price, image_url, catg}]
         const newFav = new Fav({userid, fav});
         await newFav.save();
         res.status(200).json({message: 'Item Added to Favorites'});
@@ -152,9 +152,23 @@ router.post('/getfav', async (req,res)=>{
     }
 })
 
+router.post('/rmvfav', async (req,res)=>{
+    const {userid, name} = req.body;
+    const item = await Fav.findOne({userid});
+    if(item)
+    {
+        item.fav = item.fav.filter((i)=> i.name !== name)
+        res.status(200).json({message:'Item Removed from Favorites'});
+    }
+    else{
+        res.status(400).json({message:'Failed to get Cart details'});
+    }
+    await item.save()
+})
+
 router.post('/getlen', async (req, res)=>{
-    const {id} = req.body;
-    const item = await Cart.findOne({userid:id});
+    const {userid} = req.body;
+    const item = await Cart.findOne({userid:userid});
     if(item)
     {
         const length = (item.cart).length;

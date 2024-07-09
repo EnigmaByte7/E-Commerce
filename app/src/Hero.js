@@ -15,14 +15,14 @@ export default function Hero() {
   const [cart, setCart] = useState(undefined);
 
   useEffect(()=>{
-  const fetchCartDetails = async (id)=>{
+  const fetchCartDetails = async (userid)=>{
     try{
       const response = await fetch('http://localhost:5000/api/users/getlen', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({  id:id }),
+        body: JSON.stringify({  userid:userid }),
     });
     const data = await response.json();
     if(response.ok){

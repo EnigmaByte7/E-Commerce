@@ -45,7 +45,7 @@ export default function Modal(props) {
               headers: {
                   'Content-Type': 'application/json',
               },
-              body: JSON.stringify({  userid:userid, name:obj.name, price:obj.price, image_url: obj.image_url}),
+              body: JSON.stringify({  userid:userid, name:obj.name, price:obj.price, image_url: obj.image_url, catg:obj.catg, product_id: obj.id}),
           });
           const data = await response.json();
           if(response.ok)
