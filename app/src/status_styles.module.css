@@ -1,0 +1,32 @@
+.window{
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    row-gap:40px;
+    text-align: center;
+}
+.title{
+    font-size: 2em;
+    color: #4caf50;
+}
+.empty{
+    display: flex;
+    flex-direction: column;
+    row-gap :20px;
+    width:30%;
+    margin:auto;
+}
+.empty img{
+    object-fit: contain;
+}
+.logg{
+    font-size:1.3rem;
+    color: #a7a7a7;
+    font-weight: 600;
+    text-align: center;
+    width: 100%;
+    padding:5px;
+}

@@ -11,6 +11,8 @@ import { BrowserRouter as Router,Routes, Route, Link } from 'react-router-dom';
 import Register from './Register';
 import Cart from './Cart'
 import Fav from './Fav'
+import Success from './Success';
+import Checkout from './Checkout';
 
 function App() {
   return (
@@ -40,6 +42,12 @@ function App() {
           }></Route>
           <Route path='/favorites' element={
             <Fav />
+          }></Route>
+          <Route path='/checkout' element={
+            <Checkout />
+          }></Route>
+          <Route path='/success' element={
+            <Success />
           }></Route>
    </Routes>
   </Router>

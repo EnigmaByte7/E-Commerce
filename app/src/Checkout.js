@@ -5,19 +5,27 @@ import  { useEffect ,useState} from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 import logout from './logout.png'
 import { useNavigate,Link } from 'react-router-dom';
-import styles from './cart_style.module.css'
-import mpt from './mpt.png'
+import styles from './check_styles.module.css'
 import favob from './favob.png'
 import favo from './favo.png'
+import upi from './upi.png'
+import cod from './cod.png'
+import loader from './loader.gif'
+import card from './card.png'
+import dog from './dog.png'
 
 let id;
 let name;
-export default function Cart() {
-    const [user, setUser] = useState(localStorage.getItem('user'));
+export default function Checkout() {
+    const [user, setUser] = useState(localStorage.getItem('userid'));
     const [cartLen, setCartLen] = useState(0);
     const [cart, setCart] = useState([]);
     const [total, setTotal] = useState(0);
     const [fav, setFav] = useState(0);
+    const navigate = useNavigate();
+    const [order, setOrder] = useState({name:'', add:'',state:'', city:'', zip:'',pay:''});
+    const [key, setKey] = useState(localStorage.getItem('key'));
+    const [loading, setLoading] = useState(false);
 
     const fetchFavData = async (id) => {
         try {
@@ -39,7 +47,6 @@ export default function Cart() {
             console.log(err);
         }
       }
-
 
     const fetchCartData = async (id) => {
         try {
@@ -64,8 +71,44 @@ export default function Cart() {
         }
     };
 
-    const setKey = ()=>{
-        localStorage.setItem('key','initiated');
+    const handleCheckout = async ()=>{
+        setLoading(true);
+        try{
+            const response = await fetch('http://localhost:5000/api/users/crtorder',{
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ order:order, userid:id}),
+            });
+            const data = await response.json();
+            if(response.ok && data.message === 'success')
+            {
+                navigate('/success')
+            }
+            else{
+                navigate('/failed')
+            }
+        }
+        catch(err)
+        {
+            console.log(err);
+        }
+    }
+
+    const handleChange = (e)=>{
+        const {name, value} = e.target;
+        setOrder((prevOrder) => ({
+            ...prevOrder,
+            [name]:value
+        }) )
+    }
+
+    const handleMethod = (method) =>{
+        setOrder((prevOrder) => ({
+            ...prevOrder,
+            pay:method
+        }))
     }
 
     useEffect(() => {
@@ -87,39 +130,27 @@ export default function Cart() {
     console.log(user)
     console.log(cart);
     console.log(cartLen);
-
+    console.log(order);
     return (
         <div>
             <Toaster />
-            <Navbar user={user} setUser={setUser} cart={cartLen} setcart={setCart} fav={fav} setFav={setFav}/>
-            {user === null || user === undefined ? (
+            <Navbar setKey={setKey} user={user} setUser={setUser} cart={cartLen} setcart={setCart} fav={fav} setFav={setFav}/>
+            {(user === null || user === undefined) && key ? (
                 <div className={styles.empty}>
-                    <img src='https://cdn.pixabay.com/photo/2012/05/07/13/32/black-48472_640.png' alt='loggedout' />
-                    <div className={styles.logg}>Please Login to Continue!</div>
+                    <img src={dog} alt='loggedout' />
+                    <div className={styles.logg}>Nothing to See Here!</div>
                 </div>
-            ) : cartLen === 0 ? (
-                <div className={styles.empty}>
-                    <img src={mpt} alt='Empty Cart' />
-                    <div className={styles.empty_text}>Oops! Your Cart is Empty.</div>
-                </div>
-            ) : (
+            ) :  (
                 <div className={styles.cart}>
-                    <div className={styles.cart_title}>Shopping Cart</div>
+                    <div className={styles.cart_title}>Checkout</div>
                     <div className={styles.main_cart}>
                         <div className={styles.product_list}>
-                            <div className={styles.head}>
-                                <div className={styles.product}>Product</div>
-                                <div className={styles.price}>Price</div>
-                                <div className={styles.qty}>Quantity</div>
-                                <div className={styles.tprice}>Total Price</div>
-                            </div>
                             {cart &&
                                 cart.map((item) => {
                                     const { name, price, image_url, quantity, id } = item;
                                     const props = { name, price, image_url, quantity, id };
                                     return <Product props={props} key={props.id} fetchCartData={fetchCartData} />;
                                 })}
-                        </div>
                         <div className={styles.total}>
                             <div className={styles.total_section}>
                                 <div className={styles.row1}>
@@ -138,13 +169,56 @@ export default function Cart() {
                                     <div className={styles.second}>₹{(total * 6) / 100}</div>
                                 </div>
                                 <div className={styles.row}>
-                                    <div className={styles.firstfinal}>Total</div>
+                                    <div className={styles.firstfinal}>Total Due</div>
                                     <div className={styles.secondfinal}>₹{(total * 5) / 100 + (total * 6) / 100 + total}</div>
                                 </div>
-                                <div className={styles.btn}>
-                                    <Link to='/checkout' ><button onClick={setKey} type='button'>Proceed to Checkout</button></Link>
-                                </div>
                             </div>
+                        </div>
+                            </div>
+                        <div className={styles.product_list}>
+                            <div className={styles.product_snip1}>
+                                <div className={styles.ship}>
+                                    <div className={styles.heading}>Shipping Information</div>
+                                    <div className={styles.ship_form}>
+                                    <form className={styles.checkoutForm}>
+                                        <div className={styles.formGroup}>
+                                            <input autoComplete='off' required type="text" id="fullName" onChange={handleChange} placeholder='Full Name' value={order.name} name="name" className={styles.formControl} />
+                                        </div>
+                                        <div className={styles.formGroup}>
+                                            <input autoComplete='off' required  type="text" id="add" placeholder='Address' onChange={handleChange}  value={order.add} name="address" className={styles.formControl} />
+                                        </div>
+                                        <div className={styles.formGroup}>
+                                            <input autoComplete='off'  required type="text" id="state" name="state" placeholder='State' onChange={handleChange} value={order.state} className={styles.formControl} />
+                                        </div>
+                                        <div className={styles.formGrouplast}>
+                                            <input  autoComplete='off' required type="text" id="city" name="city" placeholder='City' onChange={handleChange}  value={order.city} className={styles.formControl} />
+                                            <input autoComplete='off'  required type="number" id="postalCode" name="zip" placeholder='Postal Code' onChange={handleChange} value={order.zip} className={styles.formControl} />
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div><div className={styles.ship}>
+                                    <div className={styles.heading}>Payment Mode</div>
+                                    <div className={styles.pay_form}>
+                                    <form className={styles.payoutForm}>
+                                        <div onClick={()=> handleMethod('Upi')} className={`${styles.formGroup2} ${order.pay === 'Upi' ? styles.selected : `` }`}>
+                                            <img src={upi} alt='upi'></img>
+                                            <div className={styles.pay_text}>Via UPI</div>
+                                        </div>
+                                        <div onClick={()=> handleMethod('Card')}  className={`${styles.formGroup2} ${order.pay === 'Card' ? styles.selected : `` }`}>
+                                            <img src={card} alt='upi'></img>
+                                            <div className={styles.pay_text}>Via Debit/Credit Card</div>
+                                        </div>
+                                        <div onClick={()=> handleMethod('Cash')}  className={`${styles.formGroup2} ${order.pay === 'Cash' ? styles.selected : `` }`}>
+                                            <img src={cod} alt='cod'></img>
+                                            <div className={styles.pay_text}>Via Cash on Delivery</div>
+                                        </div>
+                                        {loading ? <div className={styles.loading}><img src={loader} alt='loading'></img> </div>
+                                           : < button type="submit" onClick={handleCheckout} className="submitButton">Checkout</button>}
+                                        </form>
+
+                                    </div>
+                                </div>
                         </div>
                     </div>
                 </div>
@@ -208,19 +282,16 @@ const Product = ({ props, fetchCartData }) => {
             <div className={styles.name_section}>
                 <div className={styles.title}>{name}</div>
                 <div className={styles.brand}>by Homestead</div>
-            </div>
-            <div className={styles.price_section}>₹{price}</div>
             <div className={styles.qty_controller}>
-                <div onClick={()=> dec({name})} className={styles.dec}>-</div>
-                <div className={styles.window}>{quantity}</div>
-                <div onClick={()=> inc({name})} className={styles.inc}>+</div>
+                <div className={styles.window}>Qty: {quantity}</div>
+            </div>
             </div>
             <div className={styles.total_sum}>₹ {(price * quantity)}</div>
         </div>
     )
 }
 
-const Navbar = ({user, setUser,cart,setcart, fav, setFav})=>{
+const Navbar = ({user, setKey,setUser,cart,setcart, fav, setFav})=>{
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const navigate = useNavigate();
 
@@ -230,6 +301,7 @@ const Navbar = ({user, setUser,cart,setcart, fav, setFav})=>{
             localStorage.clear();
             setUser(null);
             setcart([]);
+            setKey(undefined);
             setIsLoggingOut(true);
             setFav(0);
             toast.success('Logged Out!');

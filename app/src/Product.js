@@ -12,6 +12,8 @@ import {useParams,Link,useNavigate} from 'react-router-dom'
 import tbl from './tbl.png'
 import toast, { Toaster } from 'react-hot-toast';
 import Modal from './Modal';
+import favob from './favob.png'
+import favo from './favo.png'
 const _ = require('lodash');
 let copy;
 
@@ -36,8 +38,29 @@ export default function Product() {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [fav, setFav] = useState(0);
 
   useEffect(()=>{
+    const fetchFavData = async (id) => {
+      try {
+          const response = await fetch('http://localhost:5000/api/users/getfav', {
+              method : 'POST',
+              headers: {
+                'Content-type' : 'application/json',
+              },
+              body: JSON.stringify({userid : id}),
+            });
+          const data = await response.json();
+          if (response.ok) {
+              setFav(data.fav.length);
+              
+          } else {
+              console.log(data.message);
+          }
+      } catch (err) {
+          console.log(err);
+      }
+    }
     const fetchCartDetails = async (userid)=>{
       try{
         const response = await fetch('http://localhost:5000/api/users/getlen', {
@@ -61,9 +84,12 @@ export default function Product() {
       }
     }
   
-    if(id)
+    if(id){
       fetchCartDetails(id);
-  })
+      fetchFavData(id);
+    }
+})
+
 
   const fetchData = async () => {
     try{
@@ -81,6 +107,8 @@ export default function Product() {
   useEffect(()=>{
     fetchData();
   },[catg]);
+
+
 
   if (loading){
     return(
@@ -100,8 +128,7 @@ export default function Product() {
       navigate('/login');
     }
   }
-
-
+   
   return (
     <>
     <Toaster/>
@@ -115,6 +142,7 @@ export default function Product() {
                 <div className='abt'>About</div>
             </div>
             <div className='icons'>
+            <div><Link to='/favorites'><img src={(user && fav > 0) ? favo : favob} alt='bag' id='cart'></img></Link></div>
             <div className='bag'>
               <Link to='/cart'><img src={bag} alt='bag' id='cart'></img></Link>
               {user && <div className='cart_length'>{cart}</div>}
@@ -226,6 +254,7 @@ const Item = (props) =>{
   const viewProduct = (props)=>{
     props.setmodal(true);
     props.setproduct(props)
+    console.log(props)
   }
   return (
     <div id={props.id} className='product-item' onClick={()=> {viewProduct(props)} }>

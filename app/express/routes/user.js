@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const Cart = require('../models/Cart');
 const Fav = require('../models/Fav');
+const Order = require('../models/Order');
 const router = express.Router();
 const sofa = require('./sofa')
 const chair = require('./chair')
@@ -111,13 +112,13 @@ router.post('/addtofav',async (req, res)=>{
             res.status(200).json({message:'Item Removed from Favorites'});
         }
         else{
-            item.fav.push({userid, name, price, image_url, product_id});
+            item.fav.push({userid, name, price, image_url, product_id, catg});
             res.status(200).json({message: 'Item Added to Favorites'});
         }
         await item.save();
     }
     else{
-        const fav = [{userid, name, price, image_url, catg}]
+        const fav = [{userid, name, price, image_url,product_id, catg}]
         const newFav = new Fav({userid, fav});
         await newFav.save();
         res.status(200).json({message: 'Item Added to Favorites'});
@@ -231,6 +232,33 @@ router.post('/dec',async (req, res)=>{
         }
         await item.save();
     }
+})
+
+router.post('/crtorder',async (req,res)=>{
+    const {order, userid} = req.body;
+    const {name, add, state, city, zip, pay} = order;
+    if(await Order.findOne({userid})){
+        const item = await Cart.findOne({userid});
+        item.order.push({username:name, state:state, city:city, zip:zip, pay:pay });
+        res.status(200).json({message: 'success'});
+    }
+    else{
+        const order = [{username:name, state:state, city:city, zip:zip, pay:pay}]
+        const newOrder = new Cart({userid, order});
+        await newOrder.save();
+        res.status(200).json({message: 'failed'});
+    }
+    await item.save();
+})
+
+router.post('/clrcart', async (req,res)=>{
+    const {userid} = req.body;
+    const item = await Cart.findOne({userid});
+    if(item){
+        item.cart = [];
+        res.status(200).json({message:'Cart Cleared'});
+    }
+    await item.save();
 })
 
 module.exports = router;

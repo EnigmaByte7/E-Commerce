@@ -8,6 +8,8 @@ import { useNavigate,Link } from 'react-router-dom';
 import styles from './fav_style.module.css'
 import del from './del.png'
 import wsh from './wsh.png'
+import favob from './favob.png'
+import favo from './favo.png'
 
 let name;
 export default function Fav() {
@@ -82,6 +84,7 @@ export default function Fav() {
         }
     }, []);
 
+
     console.log(id);
     console.log(name)
     console.log(user)
@@ -91,7 +94,7 @@ export default function Fav() {
     return (
         <div>
             <Toaster />
-            <Navbar user={user} setUser={setUser} setFav={setFav} cartLen={cartLen} />
+            <Navbar user={user} setUser={setUser} setFav={setFav} cartLen={cartLen} fav={fav} />
             {user === null || user === undefined ? (
                 <div className={styles.empty}>
                     <img src='https://cdn.pixabay.com/photo/2012/05/07/13/32/black-48472_640.png' alt='loggedout' />
@@ -127,12 +130,10 @@ export default function Fav() {
 const Product = ({ props, fetchFavData, setUser,key }) => {
     const navigate = useNavigate();
     const { name, price, image_url,catg,product_id } = props;
-    console.log(catg);
-    console.log(product_id)
     const userid = localStorage.getItem('userid');
 
-    const redirect = (id)=>{
-        navigate(`http://localhost:3000/products/${catg}/#${id}`);
+    const redirect = ()=>{
+        navigate(`/products/${catg}#${product_id}`);
     }
 
     const handleFav = async ()=>{
@@ -164,15 +165,15 @@ const Product = ({ props, fetchFavData, setUser,key }) => {
     }    
 
     return (
-        <div id={product_id} onClick={()=>redirect(product_id)} className={styles.product_snip}>
-            <div className={styles.img_cont}>
+        <div id={product_id} className={styles.product_snip}>
+            <div onClick={redirect}  className={styles.img_cont}>
                 <img src={image_url} alt='pro-img'></img>
             </div>
-            <div className={styles.name_section}>
+            <div onClick={redirect}  className={styles.name_section}>
                 <div className={styles.title}>{name}</div>
                 <div className={styles.brand}>by Homestead</div>
             </div>
-            <div className={styles.price_section}>₹{price}</div>
+            <div onClick={redirect}  className={styles.price_section}>₹{price}</div>
             <div className={styles.del_section}>
                 <img  onClick={handleFav} src={del} alt='del'></img>
             </div>
@@ -180,7 +181,7 @@ const Product = ({ props, fetchFavData, setUser,key }) => {
     )
 }
 
-const Navbar = ({user, setUser,cartLen,setFav})=>{
+const Navbar = ({user, setUser,cartLen,setFav, fav})=>{
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const navigate = useNavigate();
     console.log(cartLen);
@@ -215,6 +216,7 @@ const Navbar = ({user, setUser,cartLen,setFav})=>{
                 <div className='abt'>About</div>
             </div>
             <div className='icons'>
+            <div><Link to='/favorites'><img src={(user && fav.length > 0) ? favo : favob} alt='bag' id='cart'></img></Link></div>
             <div className='bag'>
             <Link to='/cart'><img src={bag} alt='bag' id='cart'></img></Link>
               {user && <div className='cart_length'>{cartLen}</div>}

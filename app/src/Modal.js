@@ -8,9 +8,10 @@ import { Rating } from 'react-simple-star-rating'
 export default function Modal(props) {
   const userid = localStorage.getItem('userid');
   const obj = props.props.props;
+  console.log(obj.catg);
+  console.log(obj.id);
   const [isFav, setFav] = useState(false);
   let [amt,setAmt] = useState(1);
-  console.log(props);
   const closeModal = ()=>{
     if(props.modal)
     {
