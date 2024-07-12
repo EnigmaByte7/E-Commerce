@@ -13,6 +13,14 @@ const shelf = require('./shelf')
 const vase = require('./vase')
 const clock = require('./clock')
 const fig = require('./fig')
+const lights1 = require('./lights1')
+const lights2 = require('./lights2')
+const lights3 = require('./lights3')
+const diff = require('./diff')
+const candles = require('./candles')
+const mirror = require('./mirror')
+const paint = require('./paint')
+const oils = require('./oils')
 
 router.get('/products/sofa',(req,res)=>{
     res.json(sofa);
@@ -38,6 +46,38 @@ router.get('/products/clock',(req,res)=>{
 router.get('/products/statues',(req,res)=>{
     res.json(fig);
 })
+router.get('/products/lights1',(req,res)=>{
+    res.json(lights1);
+})
+
+router.get('/products/lights2',(req,res)=>{
+    res.json(lights2);
+})
+
+router.get('/products/lights3',(req,res)=>{
+    res.json(lights3);
+})
+
+router.get('/products/diffuser',(req,res)=>{
+    res.json(diff);
+})
+
+router.get('/products/candle',(req,res)=>{
+    res.json(candles);
+})
+
+router.get('/products/mirror',(req,res)=>{
+    res.json(mirror);
+})
+
+router.get('/products/art',(req,res)=>{
+    res.json(paint);
+})
+
+router.get('/products/oils',(req,res)=>{
+    res.json(oils);
+})
+
 
 router.post('/register', async (req, res) => {
     const { name, email, password } = req.body;
@@ -73,7 +113,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/addtocart',async (req, res)=>{
-    const {userid , name, price, image_url, quantity} = req.body;
+    const {userid , name, price, image_url, quantity, brand} = req.body;
     if(await Cart.findOne({userid})){
         const item = await Cart.findOne({userid});
         const selected = item.cart.find((element)=>element.name === name)
@@ -88,13 +128,13 @@ router.post('/addtocart',async (req, res)=>{
             res.status(200).json({message: 'Item Added to Cart'});}
         }
         else{
-            item.cart.push({userid, name, price, image_url,quantity:quantity});
+            item.cart.push({userid, name, price, image_url,quantity:quantity,brand});
             res.status(200).json({message: 'Item Added to Cart'});
         }
         await item.save();
     }
     else{
-        const cart = [{userid, name, price, image_url, quantity: quantity}]
+        const cart = [{userid, name, price, image_url, quantity: quantity,brand}]
         const newCart = new Cart({userid, cart});
         await newCart.save();
         res.status(200).json({message: 'Item Added to Cart'});
@@ -102,7 +142,7 @@ router.post('/addtocart',async (req, res)=>{
 })
 
 router.post('/addtofav',async (req, res)=>{
-    const {userid , name, price, image_url, catg, product_id} = req.body;
+    const {userid , name, price, image_url, catg, product_id,brand} = req.body;
     if(await Fav.findOne({userid})){
         const item = await Fav.findOne({userid});
         const selected = item.fav.find((element)=>element.name === name)
@@ -112,13 +152,13 @@ router.post('/addtofav',async (req, res)=>{
             res.status(200).json({message:'Item Removed from Favorites'});
         }
         else{
-            item.fav.push({userid, name, price, image_url, product_id, catg});
+            item.fav.push({userid, name, price, image_url, product_id, catg,brand});
             res.status(200).json({message: 'Item Added to Favorites'});
         }
         await item.save();
     }
     else{
-        const fav = [{userid, name, price, image_url,product_id, catg}]
+        const fav = [{userid, name, price, image_url,product_id, catg,brand}]
         const newFav = new Fav({userid, fav});
         await newFav.save();
         res.status(200).json({message: 'Item Added to Favorites'});
@@ -236,19 +276,26 @@ router.post('/dec',async (req, res)=>{
 
 router.post('/crtorder',async (req,res)=>{
     const {order, userid} = req.body;
-    const {name, add, state, city, zip, pay} = order;
-    if(await Order.findOne({userid})){
-        const item = await Cart.findOne({userid});
-        item.order.push({username:name, state:state, city:city, zip:zip, pay:pay });
-        res.status(200).json({message: 'success'});
+    const {name, add, state, city, zip, pay,date, cost} = order;
+    const item = await Order.findOne({userid});
+    try{
+        if(item){
+            item.order.push({username:name, state:state, city:city, zip:zip, pay:pay ,date:date, cost:cost});
+            await item.save();
+            res.status(200).json({message: 'success'});
+        }
+        else{
+            const order = [{username:name, state:state, city:city, zip:zip, pay:pay,date:date, cost:cost}]
+            const newOrder = new Order({userid, order});
+            await newOrder.save();
+            res.status(200).json({message: 'success'});
+        }
     }
-    else{
-        const order = [{username:name, state:state, city:city, zip:zip, pay:pay}]
-        const newOrder = new Cart({userid, order});
-        await newOrder.save();
+    catch(err)
+    {
+        console.log(err)
         res.status(200).json({message: 'failed'});
     }
-    await item.save();
 })
 
 router.post('/clrcart', async (req,res)=>{
@@ -259,6 +306,19 @@ router.post('/clrcart', async (req,res)=>{
         res.status(200).json({message:'Cart Cleared'});
     }
     await item.save();
+})
+
+
+router.post('/getorders', async (req,res)=>{
+    const {userid} = req.body;
+    const item = await Order.findOne({userid});
+    if(item)
+    {
+        res.status(200).json({order:item.order});
+    }
+    else{
+        res.status(400).json({message:'Failed to get Order details'});
+    }
 })
 
 module.exports = router;

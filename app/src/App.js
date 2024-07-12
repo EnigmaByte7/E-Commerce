@@ -13,6 +13,9 @@ import Cart from './Cart'
 import Fav from './Fav'
 import Success from './Success';
 import Checkout from './Checkout';
+import Notfound from './Notfound';
+import Failed from './Failed'
+import Order from './Order'
 
 function App() {
   return (
@@ -48,6 +51,18 @@ function App() {
           }></Route>
           <Route path='/success' element={
             <Success />
+          }></Route>
+          <Route path='/failed' element={
+            <Failed />
+          }></Route>
+          <Route path='/orders' element={
+            <Order />
+          }></Route>
+          <Route path='/about' element={
+            <About />
+          }></Route>
+          <Route path='*' element={
+            <Notfound />
           }></Route>
    </Routes>
   </Router>

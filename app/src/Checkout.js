@@ -13,17 +13,21 @@ import cod from './cod.png'
 import loader from './loader.gif'
 import card from './card.png'
 import dog from './dog.png'
+import box from './box.png'
+import {motion} from 'framer-motion'
 
 let id;
 let name;
 export default function Checkout() {
+    const d = new Date();
+    const date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
     const [user, setUser] = useState(localStorage.getItem('userid'));
     const [cartLen, setCartLen] = useState(0);
     const [cart, setCart] = useState([]);
     const [total, setTotal] = useState(0);
     const [fav, setFav] = useState(0);
     const navigate = useNavigate();
-    const [order, setOrder] = useState({name:'', add:'',state:'', city:'', zip:'',pay:''});
+    const [order, setOrder] = useState({name:'', add:'',state:'', city:'', zip:'',pay:'',date:date, cost:total});
     const [key, setKey] = useState(localStorage.getItem('key'));
     const [loading, setLoading] = useState(false);
 
@@ -63,6 +67,7 @@ export default function Checkout() {
                 setCartLen(data.cart.length);
                 const calculatedTotal = data.cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
                 setTotal(calculatedTotal);
+                order.cost = calculatedTotal + (calculatedTotal * 5) / 100 + (calculatedTotal * 6) / 100;
             } else {
                 console.log(data.message);
             }
@@ -71,7 +76,14 @@ export default function Checkout() {
         }
     };
 
-    const handleCheckout = async ()=>{
+    const handleCheckout = async (e)=>{
+        e.preventDefault();
+        if(order.name==='' || order.city ==='' || isNaN(order.zip)  || order.state==='' || order.add === '' || order.pay==='' || order.cost ===0){
+            toast.error('Please Fill Shipping information',{
+            duration:3000
+            })
+        }
+        else{
         setLoading(true);
         try{
             const response = await fetch('http://localhost:5000/api/users/crtorder',{
@@ -84,9 +96,11 @@ export default function Checkout() {
             const data = await response.json();
             if(response.ok && data.message === 'success')
             {
+                setTimeout(()=>{setLoading(false)},3000);
                 navigate('/success')
             }
             else{
+                setTimeout(()=>{setLoading(false)},3000);
                 navigate('/failed')
             }
         }
@@ -94,6 +108,7 @@ export default function Checkout() {
         {
             console.log(err);
         }
+    }
     }
 
     const handleChange = (e)=>{
@@ -130,15 +145,17 @@ export default function Checkout() {
     console.log(user)
     console.log(cart);
     console.log(cartLen);
+    console.log(key);
+    console.log(date);
     console.log(order);
     return (
         <div>
             <Toaster />
             <Navbar setKey={setKey} user={user} setUser={setUser} cart={cartLen} setcart={setCart} fav={fav} setFav={setFav}/>
-            {(user === null || user === undefined) && key ? (
+            {(user === null || user === undefined) || key === null ? (
                 <div className={styles.empty}>
-                    <img src={dog} alt='loggedout' />
                     <div className={styles.logg}>Nothing to See Here!</div>
+                    <img src={dog} alt='loggedout' />
                 </div>
             ) :  (
                 <div className={styles.cart}>
@@ -185,7 +202,7 @@ export default function Checkout() {
                                             <input autoComplete='off' required type="text" id="fullName" onChange={handleChange} placeholder='Full Name' value={order.name} name="name" className={styles.formControl} />
                                         </div>
                                         <div className={styles.formGroup}>
-                                            <input autoComplete='off' required  type="text" id="add" placeholder='Address' onChange={handleChange}  value={order.add} name="address" className={styles.formControl} />
+                                            <input autoComplete='off' required  type="text" id="add" placeholder='Address' onChange={handleChange}  value={order.add} name="add" className={styles.formControl} />
                                         </div>
                                         <div className={styles.formGroup}>
                                             <input autoComplete='off'  required type="text" id="state" name="state" placeholder='State' onChange={handleChange} value={order.state} className={styles.formControl} />
@@ -214,7 +231,7 @@ export default function Checkout() {
                                             <div className={styles.pay_text}>Via Cash on Delivery</div>
                                         </div>
                                         {loading ? <div className={styles.loading}><img src={loader} alt='loading'></img> </div>
-                                           : < button type="submit" onClick={handleCheckout} className="submitButton">Checkout</button>}
+                                           : < motion.button type="submit" whileHover={{scale:1.03}} whileTap={{scale:0.95}}  onClick={handleCheckout} className="submitButton">Checkout</motion.button>}
                                         </form>
 
                                     </div>
@@ -325,9 +342,10 @@ const Navbar = ({user, setKey,setUser,cart,setcart, fav, setFav})=>{
             <div className='tabs'>
                 <Link to='/'><div className='home'>Home</div></Link>
                 <Link to='/products/sofa' ><div className='collect'>Collections</div></Link>
-                <div className='abt'>About</div>
+                <Link to='about'><div className='abt'>About</div></Link>
             </div>
             <div className='icons'>
+            <div><Link to='/orders'><img src={box} alt='bag' id='box'></img></Link></div>
             <div><Link to='/favorites'><img src={(user && fav > 0) ? favo : favob} alt='bag' id='cart'></img></Link></div>
             <div className='bag'>
             <Link to='/cart'><img src={bag} alt='bag' id='cart'></img></Link>

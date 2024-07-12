@@ -7,15 +7,31 @@
     height: 100vh;
     row-gap:40px;
     text-align: center;
+    background-color: #baffc4ce;
+}
+.fwindow{
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    row-gap:40px;
+    text-align: center;
+    background-color: #ffadadce;
 }
 .title{
-    font-size: 2em;
+    font-size: 1.5em;
     color: #4caf50;
+}
+
+.ftitle{
+    font-size: 1.5em;
+    color: #d45959;
 }
 .empty{
     display: flex;
     flex-direction: column;
-    row-gap :20px;
     width:30%;
     margin:auto;
 }
@@ -29,4 +45,24 @@
     text-align: center;
     width: 100%;
     padding:5px;
+}
+.btn{
+    width: 100%;
+}
+.shop_btn{
+    width:20%;
+    border-radius: 15px;
+    color:white;
+    background-color: rgb(150, 150, 255);
+    font-weight: 600;
+    font-size: 1rem;
+}
+.btn button{
+    position: relative;
+    margin:0;
+    padding:10px;
+}
+.fail{
+    width:15%;
+    height:15%;
 }

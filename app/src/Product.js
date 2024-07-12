@@ -13,7 +13,10 @@ import tbl from './tbl.png'
 import toast, { Toaster } from 'react-hot-toast';
 import Modal from './Modal';
 import favob from './favob.png'
+import empty from './empty_box.png'
+import box from './box.png'
 import favo from './favo.png'
+import {motion} from 'framer-motion'
 const _ = require('lodash');
 let copy;
 
@@ -30,7 +33,16 @@ export default function Product() {
     'shelf' : 'https://img.freepik.com/free-photo/wooden-plant-shelf-against-blank-wall_53876-110326.jpg?t=st=1720206995~exp=1720210595~hmac=696c815c4a060c2706ba9e2158d0e8e4ca2ae3138f9034e8345c738683d2a12b&w=740',
     'vase':vs,
     'clock':'https://images.unsplash.com/photo-1527434284315-fadc3143d9f2?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'statues' : 'https://img.freepik.com/premium-photo/modern-composition-stylish-accessories-decoration-flowers-gold-monkey-wooden-bench-white-living-room-interior-close-up-detalis_431307-4275.jpg?w=740'
+    'statues' : 'https://img.freepik.com/premium-photo/modern-composition-stylish-accessories-decoration-flowers-gold-monkey-wooden-bench-white-living-room-interior-close-up-detalis_431307-4275.jpg?w=740',
+    'lights1' : 'https://img.freepik.com/premium-photo/vintage-ceiling-cage-lighting_62754-823.jpg?w=826',
+    'lights2' : 'https://img.freepik.com/premium-photo/vintage-ceiling-cage-lighting_62754-823.jpg?w=826',
+    'lights3' : 'https://img.freepik.com/premium-photo/vintage-ceiling-cage-lighting_62754-823.jpg?w=826',
+    'diffuser' : 'https://img.freepik.com/premium-photo/cozy-home-decor-with-candles-plants_161362-19175.jpg?w=740',
+    'candle' : 'https://img.freepik.com/free-photo/glowing-candle-illuminates-dark-room-with-tranquility-generated-by-ai_188544-18327.jpg?t=st=1720731050~exp=1720734650~hmac=bf1eb8c903c80c73dc9c244aadeec6a5a9bc02d51179a83871b8ba8e40628e31&w=826',
+    'mirror':'https://img.freepik.com/premium-photo/close-up-desk-with-mirror-other-decorations_305343-1051.jpg?w=740',
+    'art' : 'https://img.freepik.com/free-photo/modern-styled-entryway_23-2150695917.jpg?t=st=1720731000~exp=1720734600~hmac=913e7fe930e084f803be8113c4803eb6cca6f7d30ffa77420c910b50b7d738d8&w=740',
+    'oils' : 'https://img.freepik.com/free-photo/front-view-eco-friendly-cleaning-products-set-with-soap-cotton-swabs_23-2148818490.jpg?t=st=1720729617~exp=1720733217~hmac=17dc7a34198d8b6ee61b2b4f48571264ade60245f31a99a9624cf663ec256c0f&w=740',
+
   }
   const name = localStorage.getItem('user');
   const [user, setUser] = useState(name);  
@@ -139,9 +151,10 @@ export default function Product() {
             <div className='tabs'>
                 <Link to='/'><div className='home'>Home</div></Link>
                 <Link to='/products/sofa' ><div className='collect'>Collections</div></Link>
-                <div className='abt'>About</div>
+                <Link to='/products/about'><div className='abt'>About</div></Link>
             </div>
             <div className='icons'>
+            <div><Link to='/orders'><img src={box} alt='bag' id='box'></img></Link></div>
             <div><Link to='/favorites'><img src={(user && fav > 0) ? favo : favob} alt='bag' id='cart'></img></Link></div>
             <div className='bag'>
               <Link to='/cart'><img src={bag} alt='bag' id='cart'></img></Link>
@@ -151,7 +164,7 @@ export default function Product() {
             </div>
         </div>
         <img src={banner[catg]} className='central' alt='vs'></img>
-        <div className='central-text'>{_.capitalize(catg)}</div>
+        <div className='central-text'>{catg.includes('lights') ? 'Lights' : _.capitalize(catg)}</div>
     </div>
     <div className='catalog'>
         <div className='outer-grid'>
@@ -175,8 +188,8 @@ export default function Product() {
           <div className='result-section'>
             {
               data.map((item) => {
-                const {id, name , price, image_url, rating,description} = item;
-                const props = {id, name , price, image_url, rating, description, catg};
+                const {id, name , price, image_url, rating,description,brand} = item;
+                const props = {id, name , price, image_url, rating, description, catg,brand};
                 return (
                   <Item props = {props} id={id} modal={isModal} setmodal={setModal} setproduct={setProduct}></Item>
                 )
@@ -215,24 +228,24 @@ const CategoryList = ()=>{
     <div className='category-field'>
       <div className='category-name'>Lighting</div>
       <ul>
-        <li>Ceiling Lights</li>
-        <li>Table Lamps</li>
-        <li>Outdoor Lights</li>
+      <Link to='/products/lights1'><li>Ceiling Lights</li></Link>
+      <Link to='/products/lights2'><li>Table Lamps</li></Link>
+      <Link to='/products/lights3'><li>Outdoor Lights</li></Link>
       </ul>
     </div>
     <div className='category-field'>
       <div className='category-name'>Candles & Scents</div>
       <ul>
-        <li>Candles</li>
-        <li>Essential Oils</li>
-        <li>Diffusers</li>
+      <Link to='/products/candle'><li>Candles</li></Link>
+      <Link to='/products/oils'><li>Essential Oils & Fragnance</li></Link>
+      <Link to='/products/diffuser'><li>Diffusers</li></Link>
       </ul>
     </div>
     <div className='category-field'>
       <div className='category-name'>Art & Wall Decor</div>
       <ul>
-        <li>Paintings</li>
-        <li>Mirrors</li>
+      <Link to='/products/art'><li>Paintings</li></Link>
+      <Link to='/products/mirror'><li>Mirrors</li></Link>
       </ul>
     </div>
     </>
@@ -259,7 +272,7 @@ const Item = (props) =>{
   return (
     <div id={props.id} className='product-item' onClick={()=> {viewProduct(props)} }>
       <div className='product-img'>
-        <img src={props.props.image_url}></img>
+        <motion.img whileHover={{scale:1.04}} src={props.props.image_url}></motion.img>
       </div>
       <div className='product-name'>{props.props.name}</div>
       <div className='review-price'>
@@ -270,8 +283,8 @@ const Item = (props) =>{
           <div className='pricce'>₹{props.props.price}</div>
       </div>
       <div className='buttons'>
-        <div className='add-to-cart'><button type='submit' onClick={handleCart} className='cart-button'>Add to Cart</button></div>
-        <div className='buy-now'><button onClick={handleCart} type='submit' className='now-buy'>Buy Now</button></div>
+        <div className='add-to-cart'><motion.button whileHover={{scale:1.03}} whileTap={{scale:0.95}} type='submit' onClick={handleCart} className='cart-button'>Add to Cart</motion.button></div>
+        <div className='buy-now'><motion.button whileHover={{scale:1.03}} whileTap={{scale:0.95}} onClick={handleCart} type='submit' className='now-buy'>Buy Now</motion.button></div>
       </div>
     </div>
   )

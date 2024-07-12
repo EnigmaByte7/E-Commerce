@@ -13,7 +13,7 @@ export default function Navbar() {
         <div className='tabs'>
         <Link to='/'><div className='home'>Home</div></Link>
             <Link to='/products/sofa' ><div className='collect'>Collections</div></Link>
-            <div className='abt'>About</div>
+            <Link to='/about'><div className='abt'>About</div></Link>
         </div>
         <div className='icons'>
             <img src={bag} alt='bag' id='cart'></img>

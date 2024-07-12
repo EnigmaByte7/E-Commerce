@@ -7,7 +7,8 @@ const FavItemSchema = new Schema({
     price:{type:Number},
     image_url:{type:String},
     catg: {type:String},
-    product_id: {type:String}
+    product_id: {type:String},
+    brand:{type:String}
 });
 
 const FavSchema = new Schema({

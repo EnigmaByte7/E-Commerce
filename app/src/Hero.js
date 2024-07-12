@@ -8,6 +8,8 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate,Link } from 'react-router-dom';
 import favob from './favob.png'
 import favo from './favo.png'
+import box from './box.png'
+import {motion} from 'framer-motion'
 
 export default function Hero() {
   const name = localStorage.getItem('user');
@@ -81,11 +83,11 @@ export default function Hero() {
     <>
     <Toaster />
     <div className='Hero-container'>
-      <img className='hero-img' src={hero} alt='main'></img>
+      <motion.img initial={{scale:1.1}} animate={{scale:1}} transition={{duration:2}} className='hero-img' src={hero} alt='main'></motion.img>
       <Navbar fav={fav} setFav={setFav} user={user} setUser={setUser} cart={cart}/>
       <div className='moto'>
-        <div className='moto-text'>Decorate Your Dream Space <br/> With Our Finest Collection</div>
-        <Link to='/products/sofa' ><button className='explore'>Explore Collection</button></Link>
+        <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{duration:3}}  className='moto-text'>Decorate Your Dream Space <br/> With Our Finest Collection</motion.div>
+        <Link to='/products/sofa' ><motion.button whileHover={{scale:1.03}} whileTap={{scale:0.95}} className='explore'>Explore Collection</motion.button></Link>
       </div>
     </div>
     </>
@@ -96,7 +98,7 @@ const Navbar = ({user, setUser,cart, fav, setFav})=>{
   const navigate = useNavigate();
   const handleClick = (e)=>{
     e.preventDefault();
-    if(user != null){
+    if(user != null || user != undefined){
       localStorage.clear();
       navigate('/'); 
       toast.success('Logged Out!')  
@@ -113,9 +115,10 @@ const Navbar = ({user, setUser,cart, fav, setFav})=>{
         <div className='tabs'>
             <Link to='/'><div className='home'>Home</div></Link>
             <Link to='/products/sofa' ><div className='collect'>Collections</div></Link>
-            <div className='abt'>About</div>
+            <Link to='/about'><div className='abt'>About</div></Link>
         </div>
         <div className='icons'>
+            <div><Link to='/orders'><img src={box} alt='bag' id='box'></img></Link></div>
             <div><Link to='/favorites'><img src={(user && fav > 0) ? favo : favob} alt='bag' id='cart'></img></Link></div>
             <div className='bag'>
             <Link to='/cart'><img src={bag} alt='bag' id='cart'></img></Link>

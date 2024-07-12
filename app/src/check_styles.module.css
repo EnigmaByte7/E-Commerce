@@ -217,7 +217,6 @@ body{
 .empty{
     display: flex;
     flex-direction: column;
-    row-gap :20px;
     width:30%;
     margin:auto;
 }
@@ -379,3 +378,10 @@ body{
         object-fit: contain;
         width:30%;
     }
+    
+ .icons img:hover{
+    transform: scale(1.02);
+   }
+   #box:hover{
+    transform: scale(1.2) !important;
+   }

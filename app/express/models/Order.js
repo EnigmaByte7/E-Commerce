@@ -7,7 +7,9 @@ const OrderItemSchema = new Schema({
     state:{type:String},
     city:{type:String},
     zip:{type:Number},
-    pay:{type:String}
+    pay:{type:String},
+    date:{type:String},
+    cost:{type:Number}
 })
 
 const OrderSchema = new Schema({

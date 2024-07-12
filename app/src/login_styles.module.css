@@ -79,14 +79,21 @@ form input{
 .inpt1{
     background: url(./mail.png) no-repeat scroll 7px 7px;
     padding-left:30px;
+    border-bottom: #222;
+    border-bottom:2px solid #222 !important;
+    border-radius: 0 !important;
 }
 .inpt2{
     background: url(./lock.png) no-repeat scroll 7px 7px;
     padding-left:30px;
+    border-bottom:2px solid #222 !important;
+    border-radius: 0 !important;
 }
 .inpt3{
     background: url(./user.png) no-repeat scroll 7px 7px;
     padding-left:30px;
+    border-bottom:2px solid #222 !important;
+    border-radius: 0 !important;
 }
 form input:focus{
     outline: none;

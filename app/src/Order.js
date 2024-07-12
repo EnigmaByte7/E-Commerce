@@ -5,19 +5,19 @@ import  { useEffect ,useState} from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 import logout from './logout.png'
 import { useNavigate,Link } from 'react-router-dom';
-import styles from './fav_style.module.css'
-import del from './del.png'
-import wsh from './wsh.png'
+import styles from './order_style.module.css'
 import favob from './favob.png'
-import favo from './favo.png'
 import box from './box.png'
-import {motion} from 'framer-motion'
+import favo from './favo.png'
+import empty from './empty_box.png'
+
 let name;
-export default function Fav() {
+export default function Order() {
     const [user, setUser] = useState(localStorage.getItem('user'));
     const [cartLen, setCartLen] = useState(0);
     const [fav, setFav] = useState([]);
     const [id, setId] = useState(localStorage.getItem('userid'));
+    const [order, setOrder] = useState([]);
 
     const fetchFavData = async (id) => {
         try {
@@ -62,6 +62,27 @@ export default function Fav() {
         }
     };
 
+    const fetchOrder = async (id) => {
+        try {
+            const response = await fetch('http://localhost:5000/api/users/getorders', {
+                method : 'POST',
+                headers: {
+                  'Content-type' : 'application/json',
+                },
+                body: JSON.stringify({userid : id}),
+              });
+            const data = await response.json();
+            console.log(data)
+            if (response.ok) {
+                setOrder(data.order);
+                
+            } else {
+                console.log(data.message);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
     
     useEffect(() => {
         const Id = localStorage.getItem('userid');
@@ -84,6 +105,12 @@ export default function Fav() {
             fetchFavData(id);
         }
     }, []);
+    
+    useEffect(() => {
+        if (id) {
+            fetchOrder(id);
+        }
+    }, []);
 
 
     console.log(id);
@@ -95,31 +122,36 @@ export default function Fav() {
     return (
         <div>
             <Toaster />
-            <Navbar user={user} setUser={setUser} setFav={setFav} cartLen={cartLen} fav={fav} />
+            <Navbar user={user} setUser={setUser} setFav={setFav} cartLen={cartLen} fav={fav} setOrder={setOrder}/>
             {user === null || user === undefined ? (
                 <div className={styles.empty}>
                     <img src='https://cdn.pixabay.com/photo/2012/05/07/13/32/black-48472_640.png' alt='loggedout' />
                     <div className={styles.logg}>Please Login to Continue!</div>
                 </div>
-            ) : fav.length === 0 ? (
+            ) : order.length === 0 ? (
                 <div className={styles.empty}>
-                    <img src={wsh} alt='Empty Cart' />
-                    <div className={styles.empty_text}>Oops! Your WishList is Empty.</div>
+                    <img src={empty} alt='Empty Cart' />
+                    <div className={styles.empty_text}>Oops! You don't have any Orders yet.</div>
                 </div>
             ) : (
                 <div className={styles.cart}>
-                    <div className={styles.cart_title}>Wishlist</div>
+                    <div className={styles.cart_title}>Your Orders</div>
                     <div className={styles.main_cart}>
                         <div className={styles.product_list}>
                             <div className={styles.head}>
-                                <div className={styles.product}>Product</div>
-                                <div className={styles.price}>Price</div>
+                                <div className={styles.sections}>Billed to</div>
+                                <div className={styles.sections}>Address</div>
+                                <div className={styles.sections}>Products</div>
+                                <div className={styles.sections}>Cost</div>
+                                <div className={styles.sections}>Mode of Payment</div>
+                                <div className={styles.sections}>Date of Purchase</div>
+                                <div className={styles.sections}>Status</div>
                             </div>
-                            {fav &&
-                                fav.map((item) => {
-                                    const { name, price, image_url, catg, product_id,brand } = item;
-                                    const props = { name, price, image_url, product_id ,catg, brand};
-                                    return <Product  props={props} key={props.product_id} setUser={setUser} fetchFavData={fetchFavData} />;
+                            {order &&
+                                order.map((item) => {
+                                    const { username, state, city, zip, pay,date,cost} = item;
+                                    const props = { username, state, city, zip, pay,date,cost };
+                                    return <Product len={order.length} props={props} key={props.product_id} setUser={setUser} fetchFavData={fetchFavData} />;
                                 })}
                         </div>
                     </div>
@@ -128,61 +160,28 @@ export default function Fav() {
         </div>
     );
 }
-const Product = ({ props, fetchFavData, setUser,key }) => {
-    const navigate = useNavigate();
-    const { name, price, image_url,catg,product_id ,brand} = props;
-    const userid = localStorage.getItem('userid');
-
-    const redirect = ()=>{
-        navigate(`/products/${catg}#${product_id}`);
-    }
-
-    const handleFav = async ()=>{
-        try {
-            const response = await fetch('http://localhost:5000/api/users/rmvfav', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({  userid:userid, name:name}),
-            });
-            const data = await response.json();
-            
-            console.log(data.message);
-            if(response.ok)
-            {
-                toast.success(data.message,{
-                    duration:2000,
-                    position:'top-center'
-                })
-            }
-            if(!response.ok){
-                toast.error(data.message);
-            }
-        } catch (err) {
-            throw(err);
-        }
-        fetchFavData(userid);
-    }    
-
+const Product = ({ props, fetchFavData, setUser,key,len }) => {
+    const days = ['Monday', 'Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+    const {username, state, city, zip, pay,date ,cost} = props;
+    const d = new Date(date);
+    const newdate =  days[d.getDay()] + "  " + d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
     return (
-        <div id={product_id} className={styles.product_snip}>
-            <div onClick={redirect}  className={styles.img_cont}>
-                <img src={image_url} alt='pro-img'></img>
+        <div id={date} className={styles.product_snip}>
+            <div className={styles.data_section}>{username}</div>
+            <div  className={styles.add_section}>
+                <div  className={styles.data_section}>{city}</div>
+                <div  className={styles.data_section}>{state}</div>
             </div>
-            <div onClick={redirect}  className={styles.name_section}>
-                <div className={styles.title}>{name}</div>
-                <div className={styles.brand}>By {brand}</div>
-            </div>
-            <div onClick={redirect}  className={styles.price_section}>₹{price}</div>
-            <div className={styles.del_section}>
-                <motion.img  whileHover={{scale:1.03}} whileTap={{scale:0.95}} onClick={handleFav} src={del} alt='del'></motion.img>
-            </div>
+            <div  className={styles.data_section}>{len}</div>
+            <div  className={styles.data_section}>{cost}</div>
+            <div  className={styles.data_section}>{pay}</div>
+            <div  className={styles.data_section}>{newdate}</div>
+            <div  className={styles.data_section}>Fullfilled</div>
         </div>
     )
 }
 
-const Navbar = ({user, setUser,cartLen,setFav, fav})=>{
+const Navbar = ({user, setUser,cartLen,setFav,setOrder ,fav})=>{
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const navigate = useNavigate();
     console.log(cartLen);
@@ -191,6 +190,7 @@ const Navbar = ({user, setUser,cartLen,setFav, fav})=>{
         if (user) {
             localStorage.clear();
             setUser(null);
+            setOrder([]);
             setFav([]);
             setIsLoggingOut(true);
             toast.success('Logged Out!');

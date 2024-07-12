@@ -7,11 +7,13 @@ import {useRef} from 'react'
 import loader from './loader.gif'
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import {motion} from 'framer-motion'
 
 export default function Login() {
     const navigate = useNavigate();
     const buttonRef = useRef(null);
     const loadRef = useRef(null);
+    const user = null;
     const [form, setForm] = useState({ pass:'', email:''});
     const handleChange = (e)=>{
         setForm({...form, [e.target.name] : e.target.value});
@@ -31,7 +33,7 @@ export default function Login() {
                 body: JSON.stringify({  email: form.email, password: form.pass }),
             });
             const data = await response.json();
-            if(response.ok)
+            if(response.ok && user === null)
             {
                 toast.success('Logged In Successfully',{
                     duration:1500,
@@ -71,7 +73,7 @@ export default function Login() {
                     <label htmlFor='pswd'>Password</label>
                     <input autoComplete='off' className={styles.inpt2} type='password' name='pass' id='pswd' value={form.pass} onChange={handleChange} required></input>
                     <div className='create_acc'>Don't have an account ? <Link to='/register'>Sign up now.</Link></div>
-                    <button ref={buttonRef} type='submit'>Login</button>
+                    <motion.button ref={buttonRef} whileHover={{scale:1.03}} whileTap={{scale:0.95}}  type='submit'>Login</motion.button>
                     <div ref={loadRef} className={styles.loader}><img src={loader} alt='loading'></img></div>
                 </form>
             </div>

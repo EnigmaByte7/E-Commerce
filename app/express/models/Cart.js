@@ -6,7 +6,8 @@ const CartItemSchema = new Schema({
     name:{type:String},
     price:{type:Number},
     image_url:{type:String},
-    quantity: { type: Number }
+    quantity: { type: Number },
+    brand: {type: String}
 });
 
 const CartSchema = new Schema({

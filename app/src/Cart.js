@@ -9,7 +9,8 @@ import styles from './cart_style.module.css'
 import mpt from './mpt.png'
 import favob from './favob.png'
 import favo from './favo.png'
-
+import box from './box.png'
+import {motion} from 'framer-motion'
 let id;
 let name;
 export default function Cart() {
@@ -115,8 +116,8 @@ export default function Cart() {
                             </div>
                             {cart &&
                                 cart.map((item) => {
-                                    const { name, price, image_url, quantity, id } = item;
-                                    const props = { name, price, image_url, quantity, id };
+                                    const { name, price, image_url, quantity, id,brand } = item;
+                                    const props = { name, price, image_url, quantity, id,brand };
                                     return <Product props={props} key={props.id} fetchCartData={fetchCartData} />;
                                 })}
                         </div>
@@ -142,7 +143,7 @@ export default function Cart() {
                                     <div className={styles.secondfinal}>₹{(total * 5) / 100 + (total * 6) / 100 + total}</div>
                                 </div>
                                 <div className={styles.btn}>
-                                    <Link to='/checkout' ><button onClick={setKey} type='button'>Proceed to Checkout</button></Link>
+                                    <Link to='/checkout' ><motion.button whileHover={{scale:1.03}} whileTap={{scale:0.95}}  onClick={setKey} type='button'>Proceed to Checkout</motion.button></Link>
                                 </div>
                             </div>
                         </div>
@@ -153,7 +154,7 @@ export default function Cart() {
     );
 }
 const Product = ({ props, fetchCartData }) => {
-    const { name, price, image_url, quantity } = props;
+    const { name, price, image_url, quantity,brand } = props;
 
     const inc = async (name) => {
         console.log(name)
@@ -207,7 +208,7 @@ const Product = ({ props, fetchCartData }) => {
             </div>
             <div className={styles.name_section}>
                 <div className={styles.title}>{name}</div>
-                <div className={styles.brand}>by Homestead</div>
+                <div className={styles.brand}>by {brand}</div>
             </div>
             <div className={styles.price_section}>₹{price}</div>
             <div className={styles.qty_controller}>
@@ -253,9 +254,10 @@ const Navbar = ({user, setUser,cart,setcart, fav, setFav})=>{
             <div className='tabs'>
                 <Link to='/'><div className='home'>Home</div></Link>
                 <Link to='/products/sofa' ><div className='collect'>Collections</div></Link>
-                <div className='abt'>About</div>
+                <Link to='/about'><div className='abt'>About</div></Link>
             </div>
             <div className='icons'>
+            <div><Link to='/orders'><img src={box} alt='bag' id='box'></img></Link></div>
             <div><Link to='/favorites'><img src={(user && fav > 0) ? favo : favob} alt='bag' id='cart'></img></Link></div>
             <div className='bag'>
             <Link to='/cart'><img src={bag} alt='bag' id='cart'></img></Link>

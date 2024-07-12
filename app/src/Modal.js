@@ -4,6 +4,7 @@ import styles from './modal.module.css'
 import favo from './favo.png'
 import toast, { Toaster } from 'react-hot-toast';
 import { Rating } from 'react-simple-star-rating'
+import {motion} from 'framer-motion'
 
 export default function Modal(props) {
   const userid = localStorage.getItem('userid');
@@ -46,7 +47,7 @@ export default function Modal(props) {
               headers: {
                   'Content-Type': 'application/json',
               },
-              body: JSON.stringify({  userid:userid, name:obj.name, price:obj.price, image_url: obj.image_url, catg:obj.catg, product_id: obj.id}),
+              body: JSON.stringify({  userid:userid, name:obj.name, price:obj.price, image_url: obj.image_url, catg:obj.catg, product_id: obj.id,brand:obj.brand}),
           });
           const data = await response.json();
           if(response.ok)
@@ -89,7 +90,7 @@ export default function Modal(props) {
               headers: {
                   'Content-Type': 'application/json',
               },
-              body: JSON.stringify({  userid:userid, name:obj.name, price:obj.price, image_url: obj.image_url ,quantity:amt}),
+              body: JSON.stringify({  userid:userid, name:obj.name, price:obj.price, image_url: obj.image_url ,quantity:amt,brand:obj.brand}),
           });
           const data = await response.json();
           if(response.ok)
@@ -156,7 +157,7 @@ export default function Modal(props) {
                   <div>{obj.name}</div>
                   { (isFav && userid )&& <img src={favo} alt='liked'></img>}
                 </div>
-                <div className={styles.brand}>By Homestead</div>
+                <div className={styles.brand}>By {obj.brand}</div>
                 <div className={styles.price}>₹{obj.price}</div>
                 <div className={styles.star}><Rating size={25} initialValue={obj.rating} allowFraction={true} readonly={true}/></div>
                 <div className={styles.info}>{obj.description} Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, omnis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ratione alias quos fugit nobis cum quam enim labore dolorum voluptatibus perferendis!</div>
@@ -168,8 +169,8 @@ export default function Modal(props) {
                   </div>
                 </div>
                 <div className='buttons'>
-                  <div className='buy-now'><button type='submit' className='now-buy' onClick={handleCart}>Add to Cart</button></div>
-                  <div className='add-to-cart'><button type='submit' className='cart-button' onClick={handleFav} >{ (isFav && userid) ? 'Remove from Favorites' : 'Add to Favorites'}</button></div>
+                  <div className='buy-now'><motion.button type='submit' whileHover={{scale:1.03}} whileTap={{scale:0.95}} className='now-buy' onClick={handleCart}>Add to Cart</motion.button></div>
+                  <div className='add-to-cart'><motion.button type='submit' whileHover={{scale:1.03}} whileTap={{scale:0.95}} className='cart-button' onClick={handleFav} >{ (isFav && userid) ? 'Remove from Favorites' : 'Add to Favorites'}</motion.button></div>
                 </div>
             </div>
         </div>
