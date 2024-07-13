@@ -28,7 +28,7 @@ export default function Popular() {
                         <div className='add'><img alt='clickables' src={bag}></img></div>
                     </div>
                 </div></Link>
-            <Link to='.products/vase'><div className='item'>
+            <Link to='/products/vase'><div className='item'>
                 <motion.img whileHover={{scale:1.05  }} src={vas} alt='furniture'></motion.img>
                 <div className='label new'>Ceramic Vase</div>
                 <div className='price'>₹ 1500.00</div>
