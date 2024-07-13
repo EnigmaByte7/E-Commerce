@@ -4,10 +4,9 @@ const cors = require('cors');
 const userRoutes = require('./routes/user');
 const app = express();
 
-// Middleware to parse JSON requests
-app.use(express.json());
+// Middleware to parse JSON reque
 const corsOptions = {
-    origin: 'https://e-commerce-frontend-app-seven.vercel.app',
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
@@ -15,7 +14,7 @@ const corsOptions = {
   
   app.use(cors(corsOptions));
 
-  app.options('*', cors(corsOptions));
+app.use(express.json());
 // MongoDB connection
 const mongoURI = `mongodb+srv://saxenay117:mongoDB2024%23@cluster1.unzxb3t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1`;
 mongoose.connect(mongoURI)
