@@ -20,7 +20,7 @@ export default function Hero() {
 
   useEffect(()=>{    const fetchFavData = async (id) => {
     try {
-        const response = await fetch('http://localhost:5000/api/users/getfav', {
+        const response = await fetch('https://ecomm-api-enigmaybyte.onrender.com/api/users/getfav', {
             method : 'POST',
             headers: {
               'Content-type' : 'application/json',
@@ -40,7 +40,7 @@ export default function Hero() {
   }
   const fetchCartDetails = async (userid)=>{
     try{
-      const response = await fetch('http://localhost:5000/api/users/getlen', {
+      const response = await fetch('https://ecomm-api-enigmaybyte.onrender.com/api/users/getlen', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

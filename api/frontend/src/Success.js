@@ -22,7 +22,7 @@ export default function Success() {
     useEffect(()=>{
         const clearCart = async function () {
             try {
-                const response = await fetch('http://localhost:5000/api/users/clrcart', {
+                const response = await fetch('https://ecomm-api-enigmaybyte.onrender.com/api/users/clrcart', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

@@ -21,7 +21,7 @@ export default function Order() {
 
     const fetchFavData = async (id) => {
         try {
-            const response = await fetch('http://localhost:5000/api/users/getfav', {
+            const response = await fetch('https://ecomm-api-enigmaybyte.onrender.com/api/users/getfav', {
                 method : 'POST',
                 headers: {
                   'Content-type' : 'application/json',
@@ -42,7 +42,7 @@ export default function Order() {
 
     const fetchCartLen = async (id) => {
         try {
-            const response = await fetch('http://localhost:5000/api/users/getlen', {
+            const response = await fetch('https://ecomm-api-enigmaybyte.onrender.com/api/users/getlen', {
                 method : 'POST',
                 headers: {
                   'Content-type' : 'application/json',
@@ -64,7 +64,7 @@ export default function Order() {
 
     const fetchOrder = async (id) => {
         try {
-            const response = await fetch('http://localhost:5000/api/users/getorders', {
+            const response = await fetch('https://ecomm-api-enigmaybyte.onrender.com/api/users/getorders', {
                 method : 'POST',
                 headers: {
                   'Content-type' : 'application/json',

@@ -55,7 +55,7 @@ export default function Product() {
   useEffect(()=>{
     const fetchFavData = async (id) => {
       try {
-          const response = await fetch('http://localhost:5000/api/users/getfav', {
+          const response = await fetch('https://ecomm-api-enigmaybyte.onrender.com/api/users/getfav', {
               method : 'POST',
               headers: {
                 'Content-type' : 'application/json',
@@ -75,7 +75,7 @@ export default function Product() {
     }
     const fetchCartDetails = async (userid)=>{
       try{
-        const response = await fetch('http://localhost:5000/api/users/getlen', {
+        const response = await fetch('https://ecomm-api-enigmaybyte.onrender.com/api/users/getlen', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ export default function Product() {
 
   const fetchData = async () => {
     try{
-      let res = await fetch(`https://e-commerce-api-three-iota.vercel.app/api/users/products/${catg}`);
+      let res = await fetch(`https://ecomm-api-enigmaybyte.onrender.com/api/users/products/${catg}`);
       res = await res.json();
       copy = res.data;
       setData(res.data);
@@ -151,7 +151,7 @@ export default function Product() {
             <div className='tabs'>
                 <Link to='/'><div className='home'>Home</div></Link>
                 <Link to='/products/sofa' ><div className='collect'>Collections</div></Link>
-                <Link to='/products/about'><div className='abt'>About</div></Link>
+                <Link to='/about'><div className='abt'>About</div></Link>
             </div>
             <div className='icons'>
             <div><Link to='/orders'><img src={box} alt='bag' id='box'></img></Link></div>

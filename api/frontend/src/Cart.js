@@ -22,7 +22,7 @@ export default function Cart() {
 
     const fetchFavData = async (id) => {
         try {
-            const response = await fetch('http://localhost:5000/api/users/getfav', {
+            const response = await fetch('https://ecomm-api-enigmaybyte.onrender.com/api/users/getfav', {
                 method : 'POST',
                 headers: {
                   'Content-type' : 'application/json',
@@ -44,7 +44,7 @@ export default function Cart() {
 
     const fetchCartData = async (id) => {
         try {
-            const response = await fetch('http://localhost:5000/api/users/getcart', {
+            const response = await fetch('https://ecomm-api-enigmaybyte.onrender.com/api/users/getcart', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -159,7 +159,7 @@ const Product = ({ props, fetchCartData }) => {
     const inc = async (name) => {
         console.log(name)
         try {
-            const response = await fetch('http://localhost:5000/api/users/inc', {
+            const response = await fetch('https://ecomm-api-enigmaybyte.onrender.com/api/users/inc', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -182,7 +182,7 @@ const Product = ({ props, fetchCartData }) => {
 
     const dec = async (name) => {
         try {
-            const response = await fetch('http://localhost:5000/api/users/dec', {
+            const response = await fetch('https://ecomm-api-enigmaybyte.onrender.com/api/users/dec', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

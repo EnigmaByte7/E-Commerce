@@ -23,7 +23,7 @@ export default function Register() {
             buttonRef.current.style.visibility = 'hidden';
             loadRef.current.style.visibility = 'visible';
             try {
-                const response = await fetch('http://localhost:5000/api/users/register', {
+                const response = await fetch('https://ecomm-api-enigmaybyte.onrender.com/api/users/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

@@ -42,7 +42,7 @@ export default function Modal(props) {
     }
     else{
       try {
-          const response = await fetch('http://localhost:5000/api/users/addtofav', {
+          const response = await fetch('https://ecomm-api-enigmaybyte.onrender.com/api/users/addtofav', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ export default function Modal(props) {
     }
     else{
       try {
-          const response = await fetch('http://localhost:5000/api/users/addtocart', {
+          const response = await fetch('https://ecomm-api-enigmaybyte.onrender.com/api/users/addtocart', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ export default function Modal(props) {
     const checkFav = async ()=>{
     const userid = localStorage.getItem('userid');
       try{
-        const response = await fetch('http://localhost:5000/api/users/checkfav', {
+        const response = await fetch('https://ecomm-api-enigmaybyte.onrender.com/api/users/checkfav', {
           method : 'POST',
           headers: {
             'Content-type' : 'application/json',
