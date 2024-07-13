@@ -13,7 +13,7 @@ const corsOptions = {
   
   app.use(cors(corsOptions));
 
-
+  app.options('*', cors(corsOptions));
 // MongoDB connection
 const mongoURI = `mongodb+srv://saxenay117:mongoDB2024%23@cluster1.unzxb3t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1`;
 mongoose.connect(mongoURI)
@@ -24,6 +24,11 @@ mongoose.connect(mongoURI)
 app.use('/api/users', userRoutes);
 
 app.get("/", (req, res) => res.send("Express on Vercel"));
+
+app.use((req, res, next) => {
+    res.status(404).send('Not Found');
+  });
+  
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
