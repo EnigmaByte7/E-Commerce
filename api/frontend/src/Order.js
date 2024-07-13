@@ -175,7 +175,7 @@ const Product = ({ props, fetchFavData, setUser,key,len }) => {
             <div  className={styles.data_section}>{len}</div>
             <div  className={styles.data_section}>{cost}</div>
             <div  className={styles.data_section}>{pay}</div>
-            <div  className={styles.data_section}>{newdate}</div>
+            <div  className={styles.data_section}>{date}</div>
             <div  className={styles.data_section}>Fullfilled</div>
         </div>
     )
