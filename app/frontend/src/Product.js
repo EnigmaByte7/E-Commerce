@@ -105,7 +105,7 @@ export default function Product() {
 
   const fetchData = async () => {
     try{
-      let res = await fetch(`http://localhost:5000/api/users/products/${catg}`);
+      let res = await fetch(`https://e-commerce-frontend-app-seven.vercel.app/api/users/products/${catg}`);
       res = await res.json();
       copy = res.data;
       setData(res.data);
