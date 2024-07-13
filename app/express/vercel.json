@@ -2,27 +2,26 @@
     "version": 2,
     "name": "ecomm",
     "builds": [
-      {
-        "src": "express/index.js",
-        "use": "@vercel/node"
-      },
-      {
-        "src": "frontend/package.json",
-        "use": "@vercel/static-build",
-        "config": {
-          "distDir": "frontend/build"
+        {
+            "src": "app/express/index.js",
+            "use": "@vercel/node"
+        },
+        {
+            "src": "frontend/package.json",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "frontend/build"
+            }
         }
-      }
     ],
     "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "/express/index.js"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/express/index.js"
-      }
+        {
+            "src": "/api/(.*)",
+            "dest": "/app/express/index.js"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/frontend/build/$1"
+        }
     ]
-  }
-  
+}
