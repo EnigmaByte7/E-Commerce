@@ -22,8 +22,8 @@ const mirror = require('./mirror')
 const paint = require('./paint')
 const oils = require('./oils')
 
-router.get('https://e-commerce-frontend-app-seven.vercel.app/products/sofa',(req,res)=>{
-    res.json(sofa);
+router.get('/products/sofa',(req,res)=>{
+    res.send('Hello');
 })
 router.get('/products/chair',(req,res)=>{
     res.json(chair);
